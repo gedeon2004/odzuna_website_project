@@ -7,6 +7,7 @@ class User(AbstractUser):
     telephone = models.CharField(max_length=20)
 
 
+
 class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     adresse = models.TextField()

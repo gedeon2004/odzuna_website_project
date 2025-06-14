@@ -1,10 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import uuid
-from django.db import models
-from core.models import User
-from core.models import Voiture
-
 
 
 class Vehicule(models.Model):
