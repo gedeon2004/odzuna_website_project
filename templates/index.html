@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <h1>Votre passerelle vers le monde</h1>
+        <div class="branch-toggle">
+            <button class="active" data-branch="services">Odzuna Services</button>
+            <button data-branch="travel">Odzuna Travel</button>
+        </div>
+    </div>
+</section>
+
+<section class="services-highlight">
+    <div class="service-card" data-branch="services">
+        <i class="fas fa-car"></i>
+        <h3>Automobiles & Pièces</h3>
+        <p>Vente de véhicules et pièces détachées de qualité</p>
+    </div>
+    <div class="service-card" data-branch="services">
+        <i class="fas fa-id-card"></i>
+        <h3>Permis de conduire</h3>
+        <p>Accompagnement pour l'obtention de votre permis</p>
+    </div>
+    <div class="service-card" data-branch="travel">
+        <i class="fas fa-plane"></i>
+        <h3>Immigration</h3>
+        <p>Vers le Canada, USA et zone Schengen</p>
+    </div>
+    <div class="service-card" data-branch="travel">
+        <i class="fas fa-ticket-alt"></i>
+        <h3>Loterie Visa</h3>
+        <p>Assistance pour la loterie visa américaine</p>
+    </div>
+</section>
+{% endblock %}
