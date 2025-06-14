@@ -1,0 +1,81 @@
+@startuml Odzuna_Class_Diagram
+
+skinparam class {
+    BackgroundColor #FFF9E6
+    BorderColor #2c3e50
+    ArrowColor #3498db
+}
+
+package "Odzuna" {
+    package "Services" {
+        class Vehicule {
+            +id: UUID
+            +modele: String
+            +prix: Decimal
+            +type: CharField (NEUF/OCCASION)
+            +photo: ImageField
+            +disponible: Boolean
+            +get_absolute_url()
+        }
+
+        class PieceDetachee {
+            +reference: String
+            +prix: Decimal
+            +stock: Integer
+            +compatible_avec: ManyToMany(Vehicule)
+        }
+
+        class LessonAutoEcole {
+            +date: DateTime
+            +instructeur: ForeignKey(User)
+            +eleve: ForeignKey(Client)
+            +statut: CharField (PLANIFIEE/TERMINEE)
+        }
+    }
+
+    package "Travel" {
+        class DossierVisa {
+            +id: UUID
+            +type_visa: CharField (TOURISME/AFFAIRES)
+            +statut: FSMField (BR/SO/VA)
+            +documents: FileField
+            +soumettre()
+            +valider()
+        }
+
+        class PaysDestination {
+            +nom: String
+            +exigences: TextField
+        }
+
+        class RendezVousAmbassade {
+            +date: DateTime
+            +lieu: String
+            +dossier: OneToOne(DossierVisa)
+        }
+    }
+
+    package "Core" {
+        class User {
+            +username: String
+            +email: String
+            +telephone: String
+        }
+
+        class Client {
+            +user: OneToOne(User)
+            +adresse: TextField
+            +date_naissance: Date
+        }
+    }
+}
+
+User <|-- Client
+Client "1" *-- "0..*" LessonAutoEcole
+Client "1" *-- "0..*" DossierVisa
+
+Vehicule "1" *-- "0..*" PieceDetachee : compatibilité >
+DossierVisa "1" *-- "1" RendezVousAmbassade
+DossierVisa "n" -- "1" PaysDestination
+
+@enduml
