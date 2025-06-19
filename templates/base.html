@@ -4,20 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}ODZUNA - Votre passerelle vers le monde{% endblock %}</title>
+    <title>{% block title %}ODZUNA - Excellence Multiservices{% endblock %}</title>
     <link href="{% static 'css/main.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    {% block extra_head %}{% endblock %}
 </head>
-<body>
-    {% include 'includes/header.html' %}
-    {% include 'includes/nav.html' %}
+<body class="{% block body_class %}{% endblock %}">
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/228XXXXXXXX" class="whatsapp-float">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
-    <main>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader-square"></div>
+            <div class="loader-square"></div>
+            <div class="loader-square"></div>
+            <div class="loader-square"></div>
+            <div class="loader-square"></div>
+            <div class="loader-square"></div>
+            <div class="loader-square"></div>
+        </div>
+    </div>
+
+    {% include 'includes/header.html' %}
+    
+    <main class="main-content">
         {% block content %}{% endblock %}
     </main>
 
+    {% include 'includes/newsletter.html' %}
     {% include 'includes/footer.html' %}
 
     <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_scripts %}{% endblock %}
 </body>
 </html>

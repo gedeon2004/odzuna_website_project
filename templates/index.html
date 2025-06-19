@@ -1,36 +1,263 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block body_class %}home-page{% endblock %}
 
 {% block content %}
-<section class="hero">
+<!-- Hero Section avec vidéo de fond -->
+<section class="hero-section">
+    <div class="hero-video">
+        <video autoplay muted loop playsinline>
+            <source src="{% static 'videos/hero-background.mp4' %}" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+    
     <div class="hero-content">
-        <h1>Votre passerelle vers le monde</h1>
-        <div class="branch-toggle">
-            <button class="active" data-branch="services">Odzuna Services</button>
-            <button data-branch="travel">Odzuna Travel</button>
+        <h1 class="hero-title">
+            <span class="title-line">Votre passerelle vers</span>
+            <span class="title-line highlight">le monde</span>
+        </h1>
+        <p class="hero-subtitle">Solutions intégrées pour vos projets automobiles et de voyage</p>
+        
+        <div class="hero-buttons">
+            <a href="#services" class="btn btn-primary">
+                <span>Nos services</span>
+                <i class="fas fa-arrow-down"></i>
+            </a>
+            <a href="{% url 'contact' %}" class="btn btn-secondary">
+                <span>Contactez-nous</span>
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+        
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <span>Défiler</span>
         </div>
     </div>
 </section>
 
-<section class="services-highlight">
-    <div class="service-card" data-branch="services">
-        <i class="fas fa-car"></i>
-        <h3>Automobiles & Pièces</h3>
-        <p>Vente de véhicules et pièces détachées de qualité</p>
+<!-- Section Statistiques -->
+<section class="stats-section">
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-number" data-count="1500">0</div>
+            <div class="stat-label">Clients satisfaits</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" data-count="12">0</div>
+            <div class="stat-label">Pays desservis</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" data-count="98">0</div>
+            <div class="stat-label">% de réussite</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" data-count="24">0</div>
+            <div class="stat-label">/7 Support</div>
+        </div>
     </div>
-    <div class="service-card" data-branch="services">
-        <i class="fas fa-id-card"></i>
-        <h3>Permis de conduire</h3>
-        <p>Accompagnement pour l'obtention de votre permis</p>
+</section>
+
+<!-- Section Services -->
+<section id="services" class="services-section">
+    <div class="section-header">
+        <h2 class="section-title">Nos <span>Services</span></h2>
+        <p class="section-subtitle">Découvrez notre gamme complète de solutions</p>
+        <div class="section-divider"></div>
     </div>
-    <div class="service-card" data-branch="travel">
-        <i class="fas fa-plane"></i>
-        <h3>Immigration</h3>
-        <p>Vers le Canada, USA et zone Schengen</p>
+    
+    <div class="services-tabs">
+        <div class="tab-buttons">
+            <button class="tab-button active" data-tab="services">Odzuna Services</button>
+            <button class="tab-button" data-tab="travel">Odzuna Travel</button>
+        </div>
+        
+        <div class="tab-content active" id="services-tab">
+            <div class="services-grid">
+                <a href="{% url 'services:automobiles' %}" class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3>Vente d'automobiles</h3>
+                    <p>Véhicules de qualité à des prix compétitifs</p>
+                    <div class="service-hover">
+                        <span>En savoir plus</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+                
+                <a href="{% url 'services:pieces' %}" class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Pièces détachées</h3>
+                    <p>Pièces authentiques pour tous modèles</p>
+                    <div class="service-hover">
+                        <span>En savoir plus</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+                
+                <a href="{% url 'services:permis' %}" class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-id-card-alt"></i>
+                    </div>
+                    <h3>Permis de conduire</h3>
+                    <p>Formation complète et accompagnement</p>
+                    <div class="service-hover">
+                        <span>En savoir plus</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+                
+                <a href="{% url 'services:emploi' %}" class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>Aide à l'emploi</h3>
+                    <p>Opportunités professionnelles</p>
+                    <div class="service-hover">
+                        <span>En savoir plus</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="travel-tab">
+            <div class="services-grid">
+                <a href="{% url 'travel:immigration' %}" class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-passport"></i>
+                    </div>
+                    <h3>Immigration</h3>
+                    <p>Solutions globales d'immigration</p>
+                    <div class="service-hover">
+                        <span>En savoir plus</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+                
+                <a href="{% url 'travel:canada' %}" class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-maple-leaf"></i>
+                    </div>
+                    <h3>Canada</h3>
+                    <p>Réalisez votre rêve canadien</p>
+                    <div class="service-hover">
+                        <span>En savoir plus</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+                
+                <a href="{% url 'travel:schengen' %}" class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-flag-europe"></i>
+                    </div>
+                    <h3>Espace Schengen</h3>
+                    <p>Accès à l'Europe simplifié</p>
+                    <div class="service-hover">
+                        <span>En savoir plus</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+                
+                <a href="{% url 'travel:loterie' %}" class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <h3>Loterie Visa</h3>
+                    <p>Assistance pour la loterie américaine</p>
+                    <div class="service-hover">
+                        <span>En savoir plus</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
     </div>
-    <div class="service-card" data-branch="travel">
-        <i class="fas fa-ticket-alt"></i>
-        <h3>Loterie Visa</h3>
-        <p>Assistance pour la loterie visa américaine</p>
+</section>
+
+<!-- Section Témoignages -->
+<section class="testimonials-section">
+    <div class="section-header">
+        <h2 class="section-title">Ils nous <span>font confiance</span></h2>
+        <p class="section-subtitle">Découvrez ce que nos clients disent de nous</p>
+        <div class="section-divider"></div>
+    </div>
+    
+    <div class="testimonials-slider">
+        <div class="testimonial-card">
+            <div class="testimonial-content">
+                <div class="quote-icon">
+                    <i class="fas fa-quote-left"></i>
+                </div>
+                <p>Grâce à ODZUNA, j'ai pu obtenir mon visa pour le Canada en un temps record. Professionnalisme et efficacité!</p>
+            </div>
+            <div class="testimonial-author">
+                <img src="{% static 'images/client1.jpg' %}" alt="Client">
+                <div class="author-info">
+                    <h4>Koffi A.</h4>
+                    <span>Client Immigration</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="testimonial-card">
+            <div class="testimonial-content">
+                <div class="quote-icon">
+                    <i class="fas fa-quote-left"></i>
+                </div>
+                <p>La voiture achetée chez ODZUNA est en parfait état depuis 2 ans. Sérieux et suivi après-vente impeccable.</p>
+            </div>
+            <div class="testimonial-author">
+                <img src="{% static 'images/client2.jpg' %}" alt="Client">
+                <div class="author-info">
+                    <h4>Ama D.</h4>
+                    <span>Client Automobile</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="testimonial-card">
+            <div class="testimonial-content">
+                <div class="quote-icon">
+                    <i class="fas fa-quote-left"></i>
+                </div>
+                <p>Accompagnement personnalisé pour mon permis. J'ai réussi du premier coup grâce à leurs moniteurs compétents.</p>
+            </div>
+            <div class="testimonial-author">
+                <img src="{% static 'images/client3.jpg' %}" alt="Client">
+                <div class="author-info">
+                    <h4>Komlan S.</h4>
+                    <span>Client Permis</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section CTA -->
+<section class="cta-section">
+    <div class="cta-container">
+        <div class="cta-content">
+            <h2>Prêt à concrétiser vos projets?</h2>
+            <p>Notre équipe est à votre disposition pour vous accompagner</p>
+        </div>
+        <div class="cta-buttons">
+            <a href="tel:+228XXXXXXXX" class="btn btn-light">
+                <i class="fas fa-phone-alt"></i>
+                <span>Appelez-nous</span>
+            </a>
+            <a href="{% url 'contact' %}" class="btn btn-outline-light">
+                <i class="fas fa-envelope"></i>
+                <span>Envoyez un message</span>
+            </a>
+        </div>
     </div>
 </section>
 {% endblock %}

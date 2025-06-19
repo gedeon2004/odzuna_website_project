@@ -1,22 +1,97 @@
 {% load static %}
 <header class="main-header">
     <div class="header-container">
+        <!-- Logo avec animation -->
         <div class="logo-container">
-            <img src="{% static 'images/odzuna-logo.png' %}" alt="Odzuna Logo" class="main-logo">
-            <div class="logo-text">
-                <h1>ODZUNA</h1>
-                <p>Votre passerelle vers le monde</p>
-            </div>
+            <a href="{% url 'home' %}" class="logo-link">
+                <div class="logo-animation">
+                    <img src="{% static 'images/odzuna-logo.png' %}" alt="ODZUNA Logo" class="main-logo">
+                    <div class="logo-pulse"></div>
+                </div>
+                <div class="logo-text">
+                    <h1>ODZUNA</h1>
+                    <p>Excellence Multiservices</p>
+                </div>
+            </a>
         </div>
-        <div class="header-contact">
-            <div class="contact-item">
+
+        <!-- Navigation principale -->
+        <nav class="main-nav">
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}" class="nav-link"><span>Accueil</span></a></li>
+                
+                <li class="dropdown">
+                    <a href="#" class="nav-link"><span>Services</span> <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-grid">
+                            <a href="{% url 'services:automobiles' %}" class="dropdown-card">
+                                <i class="fas fa-car"></i>
+                                <h3>Automobiles</h3>
+                                <p>Véhicules de qualité</p>
+                            </a>
+                            <a href="{% url 'services:pieces' %}" class="dropdown-card">
+                                <i class="fas fa-cog"></i>
+                                <h3>Pièces détachées</h3>
+                                <p>Pièces authentiques</p>
+                            </a>
+                            <a href="{% url 'services:permis' %}" class="dropdown-card">
+                                <i class="fas fa-id-card"></i>
+                                <h3>Permis de conduire</h3>
+                                <p>Formation complète</p>
+                            </a>
+                            <a href="{% url 'services:emploi' %}" class="dropdown-card">
+                                <i class="fas fa-briefcase"></i>
+                                <h3>Aide à l'emploi</h3>
+                                <p>Opportunités professionnelles</p>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                
+                <li class="dropdown">
+                    <a href="#" class="nav-link"><span>Voyages</span> <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-grid">
+                            <a href="{% url 'travel:immigration' %}" class="dropdown-card">
+                                <i class="fas fa-passport"></i>
+                                <h3>Immigration</h3>
+                                <p>Solutions globales</p>
+                            </a>
+                            <a href="{% url 'travel:canada' %}" class="dropdown-card">
+                                <i class="fas fa-maple-leaf"></i>
+                                <h3>Canada</h3>
+                                <p>Rêve canadien</p>
+                            </a>
+                            <a href="{% url 'travel:schengen' %}" class="dropdown-card">
+                                <i class="fas fa-flag-europe"></i>
+                                <h3>Espace Schengen</h3>
+                                <p>Accès Europe</p>
+                            </a>
+                            <a href="{% url 'travel:usa' %}" class="dropdown-card">
+                                <i class="fas fa-flag-usa"></i>
+                                <h3>États-Unis</h3>
+                                <p>Opportunités USA</p>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                
+                <li><a href="{% url 'about' %}" class="nav-link"><span>À propos</span></a></li>
+                <li><a href="{% url 'contact' %}" class="nav-link"><span>Contact</span></a></li>
+            </ul>
+        </nav>
+
+        <!-- Bouton contact mobile -->
+        <div class="header-actions">
+            <a href="tel:+228XXXXXXXX" class="contact-btn">
                 <i class="fas fa-phone-alt"></i>
-                <span>+228 XX XX XX XX</span>
-            </div>
-            <div class="contact-item">
-                <i class="fas fa-envelope"></i>
-                <span>contact@odzuna.com</span>
-            </div>
+                <span>Nous appeler</span>
+            </a>
+            <button class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </div>
 </header>

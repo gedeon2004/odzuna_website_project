@@ -1,37 +1,215 @@
-<nav class="main-nav">
+<nav class="main-navigation">
+    <!-- Barre de navigation principale -->
     <div class="nav-container">
-        <div class="mobile-menu-toggle">
-            <i class="fas fa-bars"></i>
+        <!-- Logo avec effet hover -->
+        <div class="nav-brand">
+            <a href="{% url 'home' %}" class="logo-link">
+                <div class="logo-wrapper">
+                    <img src="{% static 'images/odzuna-icon.png' %}" alt="ODZUNA" class="nav-logo">
+                    <span class="logo-text">
+                        <span class="logo-primary">ODZUNA</span>
+                        <span class="logo-sub">Votre passerelle</span>
+                    </span>
+                </div>
+            </a>
         </div>
-        <ul class="nav-links">
-            <li><a href="{% url 'home' %}" class="active"><i class="fas fa-home"></i> Accueil</a></li>
-            <li class="dropdown">
-                <a href="#"><i class="fas fa-car"></i> Odzuna Services <i class="fas fa-chevron-down"></i></a>
-                <ul class="dropdown-menu">
-                    <li><a href="{% url 'services:automobiles' %}">Vente d'automobiles</a></li>
-                    <li><a href="{% url 'services:pieces' %}">Pièces détachées</a></li>
-                    <li><a href="{% url 'services:permis' %}">Accompagnement permis</a></li>
-                    <li><a href="{% url 'services:emploi' %}">Aide à l'emploi</a></li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a href="#"><i class="fas fa-plane"></i> Odzuna Travel <i class="fas fa-chevron-down"></i></a>
-                <ul class="dropdown-menu">
-                    <li><a href="{% url 'travel:immigration' %}">Immigration</a></li>
-                    <li><a href="{% url 'travel:canada' %}">Canada</a></li>
-                    <li><a href="{% url 'travel:schengen' %}">Espace Schengen</a></li>
-                    <li><a href="{% url 'travel:usa' %}">USA</a></li>
-                    <li><a href="{% url 'travel:loterie' %}">Loterie visa</a></li>
-                </ul>
-            </li>
-            <li><a href="{% url 'about' %}"><i class="fas fa-info-circle"></i> À propos</a></li>
-            <li><a href="{% url 'contact' %}"><i class="fas fa-envelope"></i> Contact</a></li>
-        </ul>
-        <div class="nav-social">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-            <a href="#"><i class="fab fa-whatsapp"></i></a>
+
+        <!-- Menu principal avec mega dropdown -->
+        <div class="nav-menu">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="{% url 'home' %}" class="nav-link">
+                        <i class="fas fa-home nav-icon"></i>
+                        <span class="link-text">Accueil</span>
+                    </a>
+                </li>
+
+                <!-- Mega dropdown Services -->
+                <li class="nav-item dropdown mega-dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">
+                        <i class="fas fa-concierge-bell nav-icon"></i>
+                        <span class="link-text">Services</span>
+                        <i class="dropdown-arrow fas fa-chevron-down"></i>
+                    </a>
+                    <div class="mega-menu">
+                        <div class="mega-menu-container">
+                            <div class="mega-menu-section">
+                                <h3 class="mega-menu-title">
+                                    <i class="fas fa-car"></i>
+                                    Automobile
+                                </h3>
+                                <ul class="mega-menu-list">
+                                    <li><a href="{% url 'services:automobiles' %}" class="mega-menu-link">
+                                        <i class="fas fa-car-side"></i>
+                                        Vente de véhicules
+                                        <span class="menu-desc">Neufs et d'occasion</span>
+                                    </a></li>
+                                    <li><a href="{% url 'services:pieces' %}" class="mega-menu-link">
+                                        <i class="fas fa-cogs"></i>
+                                        Pièces détachées
+                                        <span class="menu-desc">Originales et compatibles</span>
+                                    </a></li>
+                                    <li><a href="{% url 'services:permis' %}" class="mega-menu-link">
+                                        <i class="fas fa-id-card-alt"></i>
+                                        Permis de conduire
+                                        <span class="menu-desc">Formation complète</span>
+                                    </a></li>
+                                </ul>
+                            </div>
+
+                            <div class="mega-menu-section">
+                                <h3 class="mega-menu-title">
+                                    <i class="fas fa-briefcase"></i>
+                                    Professionnel
+                                </h3>
+                                <ul class="mega-menu-list">
+                                    <li><a href="{% url 'services:emploi' %}" class="mega-menu-link">
+                                        <i class="fas fa-user-tie"></i>
+                                        Aide à l'emploi
+                                        <span class="menu-desc">Local et international</span>
+                                    </a></li>
+                                    <li><a href="#" class="mega-menu-link">
+                                        <i class="fas fa-passport"></i>
+                                        Services consulaires
+                                        <span class="menu-desc">Documents officiels</span>
+                                    </a></li>
+                                </ul>
+                            </div>
+
+                            <div class="mega-menu-promo">
+                                <div class="promo-card">
+                                    <h4>Offre spéciale</h4>
+                                    <p>Permis de conduire + Formation à 150,000 FCFA</p>
+                                    <a href="#" class="promo-btn">Voir l'offre</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Mega dropdown Voyages -->
+                <li class="nav-item dropdown mega-dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">
+                        <i class="fas fa-plane-departure nav-icon"></i>
+                        <span class="link-text">Voyages</span>
+                        <i class="dropdown-arrow fas fa-chevron-down"></i>
+                    </a>
+                    <div class="mega-menu">
+                        <div class="mega-menu-container">
+                            <div class="mega-menu-section">
+                                <h3 class="mega-menu-title">
+                                    <i class="fas fa-globe-americas"></i>
+                                    Destinations
+                                </h3>
+                                <ul class="mega-menu-list">
+                                    <li><a href="{% url 'travel:canada' %}" class="mega-menu-link">
+                                        <i class="fas fa-maple-leaf flag-icon"></i>
+                                        Canada
+                                        <span class="menu-desc">Immigration et études</span>
+                                    </a></li>
+                                    <li><a href="{% url 'travel:usa' %}" class="mega-menu-link">
+                                        <i class="fas fa-flag-usa flag-icon"></i>
+                                        États-Unis
+                                        <span class="menu-desc">Visa et loterie</span>
+                                    </a></li>
+                                    <li><a href="{% url 'travel:schengen' %}" class="mega-menu-link">
+                                        <i class="fas fa-flag-europe flag-icon"></i>
+                                        Europe
+                                        <span class="menu-desc">Espace Schengen</span>
+                                    </a></li>
+                                </ul>
+                            </div>
+
+                            <div class="mega-menu-section">
+                                <h3 class="mega-menu-title">
+                                    <i class="fas fa-passport"></i>
+                                    Services
+                                </h3>
+                                <ul class="mega-menu-list">
+                                    <li><a href="{% url 'travel:immigration' %}" class="mega-menu-link">
+                                        <i class="fas fa-file-signature"></i>
+                                        Procédures d'immigration
+                                        <span class="menu-desc">Accompagnement complet</span>
+                                    </a></li>
+                                    <li><a href="{% url 'travel:loterie' %}" class="mega-menu-link">
+                                        <i class="fas fa-ticket-alt"></i>
+                                        Loterie des visas
+                                        <span class="menu-desc">DV Lottery USA</span>
+                                    </a></li>
+                                    <li><a href="#" class="mega-menu-link">
+                                        <i class="fas fa-hotel"></i>
+                                        Réservations
+                                        <span class="menu-desc">Hôtels et billets</span>
+                                    </a></li>
+                                </ul>
+                            </div>
+
+                            <div class="mega-menu-promo">
+                                <div class="promo-card visa-promo">
+                                    <h4>Dossier Canada</h4>
+                                    <p>Préparez votre immigration dès maintenant</p>
+                                    <a href="#" class="promo-btn">Commencer</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{% url 'about' %}" class="nav-link">
+                        <i class="fas fa-info-circle nav-icon"></i>
+                        <span class="link-text">À propos</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{% url 'contact' %}" class="nav-link">
+                        <i class="fas fa-envelope nav-icon"></i>
+                        <span class="link-text">Contact</span>
+                    </a>
+                </li>
+            </ul>
         </div>
+
+        <!-- Actions utilisateur -->
+        <div class="nav-actions">
+            <div class="action-item search-box">
+                <button class="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+                <div class="search-container">
+                    <input type="text" placeholder="Rechercher...">
+                    <button class="search-submit">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="action-item lang-switcher">
+                <button class="lang-btn">
+                    <i class="fas fa-globe"></i>
+                    <span>FR</span>
+                </button>
+                <ul class="lang-dropdown">
+                    <li><a href="#">Français</a></li>
+                    <li><a href="#">English</a></li>
+                </ul>
+            </div>
+
+            <a href="tel:+228XXXXXXXX" class="action-item phone-link">
+                <i class="fas fa-phone-alt"></i>
+                <span class="phone-text">Appelez-nous</span>
+            </a>
+        </div>
+
+        <!-- Bouton mobile -->
+        <button class="mobile-menu-toggle">
+            <span class="menu-bar"></span>
+            <span class="menu-bar"></span>
+            <span class="menu-bar"></span>
+        </button>
     </div>
+
+    <!-- Barre de progression -->
+    <div class="nav-progress-bar"></div>
 </nav>
