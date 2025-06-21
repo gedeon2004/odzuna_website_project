@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ vehicule.modele }} - Détails{% endblock %}
+
+{% block content %}
+<style>
+    .vehicule-detail-container {
+        max-width: 900px;
+        margin: 3rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+    }
+
+    .vehicule-detail-img {
+        flex: 1 1 350px;
+    }
+
+    .vehicule-detail-img img {
+        width: 100%;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+
+    .vehicule-detail-info {
+        flex: 1 1 400px;
+    }
+
+    .vehicule-detail-info h2 {
+        margin-top: 0;
+        color: #1a73e8;
+    }
+
+    .vehicule-detail-info p {
+        margin: 0.6rem 0;
+        font-size: 1rem;
+        color: #444;
+    }
+
+    .vehicule-detail-price {
+        font-size: 1.4rem;
+        color: #ff6f00;
+        font-weight: bold;
+    }
+
+    .vehicule-dispo {
+        display: inline-block;
+        padding: 0.4rem 0.8rem;
+        border-radius: 12px;
+        background: #e0ffe0;
+        color: #008000;
+        font-size: 0.9rem;
+    }
+
+    .vehicule-dispo.indisponible {
+        background: #ffe0e0;
+        color: #a10000;
+    }
+</style>
+
+<div class="vehicule-detail-container">
+    <div class="vehicule-detail-img">
+        <img src="{{ vehicule.photo.url }}" alt="{{ vehicule.modele }}">
+    </div>
+    <div class="vehicule-detail-info">
+        <h2>{{ vehicule.modele }}</h2>
+        <p><strong>Type :</strong> {{ vehicule.get_type_display }}</p>
+        <p class="vehicule-detail-price">{{ vehicule.prix|floatformat:0 }} FCFA</p>
+        <p>
+            <strong>Disponibilité :</strong>
+            <span class="vehicule-dispo {% if not vehicule.disponible %}indisponible{% endif %}">
+                {{ vehicule.disponible|yesno:"Disponible,Indisponible" }}
+            </span>
+        </p>
+        <p><em>Contactez-nous pour plus d’informations ou pour réserver ce véhicule.</em></p>
+    </div>
+</div>
+{% endblock %}

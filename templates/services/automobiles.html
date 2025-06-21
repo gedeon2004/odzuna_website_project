@@ -1,0 +1,464 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}Nos Véhicules - Odzuna Services{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --primary-blue: #1a73e8;
+        --neon-blue: #0ff0fc;
+        --dark-bg: #0f0f1a;
+        --orange-accent: #ff6f00;
+    }
+    
+    .vehicle-hero {
+        position: relative;
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{% static "images/vehicle-banner.jpg" %}');
+        background-size: cover;
+        background-position: center;
+        padding: 8rem 1rem;
+        text-align: center;
+        color: white;
+        margin-bottom: 3rem;
+    }
+    
+    .vehicle-hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        text-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    
+    .vehicle-hero p {
+        font-size: 1.3rem;
+        max-width: 800px;
+        margin: 0 auto;
+        opacity: 0.9;
+    }
+    
+    .vehicle-filters {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        max-width: 1200px;
+        margin: -50px auto 3rem;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .filter-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .filter-header h2 {
+        color: var(--primary-blue);
+        margin-bottom: 0.5rem;
+    }
+    
+    .filter-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .filter-group {
+        margin-bottom: 1rem;
+    }
+    
+    .filter-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #333;
+    }
+    
+    .filter-control {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        background: #f9f9f9;
+    }
+    
+    .filter-btn {
+        background: linear-gradient(90deg, var(--primary-blue), #0d47a1);
+        color: white;
+        border: none;
+        padding: 1rem;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        grid-column: 1 / -1;
+    }
+    
+    .filter-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(26, 115, 232, 0.2);
+    }
+    
+    .vehicle-gallery {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+    
+    .gallery-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .gallery-header h2 {
+        font-size: 2.5rem;
+        color: var(--primary-blue);
+        margin-bottom: 1rem;
+    }
+    
+    .vehicle-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+    
+    .vehicle-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        position: relative;
+    }
+    
+    .vehicle-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+    
+    .vehicle-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: var(--orange-accent);
+        color: white;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        z-index: 2;
+    }
+    
+    .vehicle-image {
+        height: 220px;
+        width: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .vehicle-card:hover .vehicle-image {
+        transform: scale(1.05);
+    }
+    
+    .vehicle-content {
+        padding: 1.5rem;
+    }
+    
+    .vehicle-title {
+        font-size: 1.5rem;
+        margin: 0 0 0.5rem;
+        color: #333;
+    }
+    
+    .vehicle-specs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8rem;
+        margin: 1rem 0;
+    }
+    
+    .spec-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+        color: #555;
+    }
+    
+    .spec-item i {
+        color: var(--primary-blue);
+    }
+    
+    .vehicle-price {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--orange-accent);
+        margin: 1rem 0;
+    }
+    
+    .vehicle-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+    
+    .details-btn {
+        flex: 1;
+        padding: 0.8rem;
+        background: var(--primary-blue);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+        text-decoration: none;
+    }
+    
+    .details-btn:hover {
+        background: #0c5dc7;
+        transform: translateY(-2px);
+    }
+    
+    .favorite-btn {
+        width: 45px;
+        height: 45px;
+        background: #f5f5f5;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .favorite-btn:hover {
+        background: #ffe0e0;
+        color: #ff0000;
+        transform: translateY(-2px);
+    }
+    
+    .dispo-badge {
+        display: inline-block;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        margin-top: 0.5rem;
+    }
+    
+    .dispo {
+        background: #e0ffe0;
+        color: #008000;
+    }
+    
+    .non-dispo {
+        background: #ffe0e0;
+        color: #a10000;
+    }
+    
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin: 3rem 0;
+        gap: 0.5rem;
+    }
+    
+    .page-item {
+        list-style: none;
+    }
+    
+    .page-link {
+        display: block;
+        padding: 0.8rem 1.2rem;
+        background: #f5f5f5;
+        color: #333;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .page-link:hover, .page-item.active .page-link {
+        background: var(--primary-blue);
+        color: white;
+    }
+    
+    @media (max-width: 768px) {
+        .vehicle-hero h1 {
+            font-size: 2.5rem;
+        }
+        
+        .filter-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .vehicle-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<section class="vehicle-hero">
+    <h1>Notre Collection Exclusive</h1>
+    <p>Découvrez notre sélection de véhicules neufs et d'occasion, rigoureusement inspectés pour garantir qualité et performance</p>
+</section>
+
+<div class="vehicle-filters">
+    <div class="filter-header">
+        <h2>Trouvez Votre Véhicule Idéal</h2>
+        <p>Filtrez notre collection selon vos critères</p>
+    </div>
+    
+    <form method="get" class="filter-grid">
+        <div class="filter-group">
+            <label for="search">Recherche</label>
+            <input type="text" id="search" name="q" placeholder="Marque, modèle..." value="{{ search_query }}" class="filter-control">
+        </div>
+        
+        <div class="filter-group">
+            <label for="type">Type de véhicule</label>
+            <select id="type" name="type" class="filter-control">
+                <option value="">Tous types</option>
+                <option value="NEUF" {% if type_filter == 'NEUF' %}selected{% endif %}>Neuf</option>
+                <option value="OCCASION" {% if type_filter == 'OCCASION' %}selected{% endif %}>Occasion</option>
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label for="dispo">Disponibilité</label>
+            <select id="dispo" name="dispo" class="filter-control">
+                <option value="">Toutes</option>
+                <option value="1" {% if dispo_filter == '1' %}selected{% endif %}>Disponible</option>
+                <option value="0" {% if dispo_filter == '0' %}selected{% endif %}>Indisponible</option>
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label for="price">Prix maximum</label>
+            <select id="price" name="price" class="filter-control">
+                <option value="">Tous prix</option>
+                <option value="5000000" {% if price_filter == '5000000' %}selected{% endif %}>5M XOF</option>
+                <option value="10000000" {% if price_filter == '10000000' %}selected{% endif %}>10M XOF</option>
+                <option value="20000000" {% if price_filter == '20000000' %}selected{% endif %}>20M XOF</option>
+            </select>
+        </div>
+        
+        <button type="submit" class="filter-btn">Appliquer les filtres</button>
+        <a href="{% url 'services:automobiles' %}" class="filter-btn" style="background: #666; text-align: center; text-decoration: none;">Réinitialiser</a>
+    </form>
+</div>
+
+<div class="vehicle-gallery">
+    <div class="gallery-header">
+        <h2>Nos Véhicules en Stock</h2>
+        {% if search_query %}
+        <p>Résultats pour "{{ search_query }}" - {{ vehicules.paginator.count }} véhicule(s) trouvé(s)</p>
+        {% endif %}
+    </div>
+    
+    {% if vehicules %}
+    <div class="vehicle-grid">
+        {% for vehicule in vehicules %}
+        <div class="vehicle-card">
+            <span class="vehicle-badge">{{ vehicule.get_type_display }}</span>
+            <img src="{{ vehicule.photo.url }}" alt="{{ vehicule.modele }}" class="vehicle-image">
+            
+            <div class="vehicle-content">
+                <h3 class="vehicle-title">{{ vehicule.marque }} {{ vehicule.modele }}</h3>
+                
+                <div class="vehicle-specs">
+                    <div class="spec-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>{{ vehicule.annee }}</span>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>{{ vehicule.kilometrage|default:"0" }} km</span>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-gas-pump"></i>
+                        <span>{{ vehicule.get_carburant_display }}</span>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-car"></i>
+                        <span>{{ vehicule.get_transmission_display }}</span>
+                    </div>
+                </div>
+                
+                <div class="vehicle-price">{{ vehicule.prix|floatformat:0 }} XOF</div>
+                
+                <span class="dispo-badge {% if vehicule.disponible %}dispo{% else %}non-dispo{% endif %}">
+                    {{ vehicule.disponible|yesno:"Disponible,Indisponible" }}
+                </span>
+                
+                <div class="vehicle-actions">
+                    <a href="{{ vehicule.get_absolute_url }}" class="details-btn">Voir détails</a>
+                    <form action="{% url 'services:ajouter_favori' vehicule.id %}" method="post" class="favori-form">
+                        {% csrf_token %}
+                        <button type="submit" class="favorite-btn">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 3rem; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+        <h3 style="color: #333;">Aucun véhicule ne correspond à vos critères</h3>
+        <p style="color: #666;">Essayez d'élargir votre recherche ou <a href="{% url 'services:automobiles' %}" style="color: var(--primary-blue);">réinitialisez les filtres</a></p>
+    </div>
+    {% endif %}
+    
+    {% if vehicules.has_other_pages %}
+    <div class="pagination">
+        {% if vehicules.has_previous %}
+        <li class="page-item">
+            <a href="?{% if search_query %}q={{ search_query }}&{% endif %}{% if type_filter %}type={{ type_filter }}&{% endif %}{% if dispo_filter %}dispo={{ dispo_filter }}&{% endif %}{% if price_filter %}price={{ price_filter }}&{% endif %}page={{ vehicules.previous_page_number }}" class="page-link">&laquo;</a>
+        </li>
+        {% endif %}
+        
+        {% for num in vehicules.paginator.page_range %}
+            {% if vehicules.number == num %}
+            <li class="page-item active">
+                <span class="page-link">{{ num }}</span>
+            </li>
+            {% elif num > vehicules.number|add:'-3' and num < vehicules.number|add:'3' %}
+            <li class="page-item">
+                <a href="?{% if search_query %}q={{ search_query }}&{% endif %}{% if type_filter %}type={{ type_filter }}&{% endif %}{% if dispo_filter %}dispo={{ dispo_filter }}&{% endif %}{% if price_filter %}price={{ price_filter }}&{% endif %}page={{ num }}" class="page-link">{{ num }}</a>
+            </li>
+            {% endif %}
+        {% endfor %}
+        
+        {% if vehicules.has_next %}
+        <li class="page-item">
+            <a href="?{% if search_query %}q={{ search_query }}&{% endif %}{% if type_filter %}type={{ type_filter }}&{% endif %}{% if dispo_filter %}dispo={{ dispo_filter }}&{% endif %}{% if price_filter %}price={{ price_filter }}&{% endif %}page={{ vehicules.next_page_number }}" class="page-link">&raquo;</a>
+        </li>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    // Animation des cartes au chargement
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.vehicle-card');
+        cards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.5s ease ' + (index * 0.1) + 's';
+            
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,435 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Formation au Permis de Conduire - Odzuna{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --primary-blue: #1a73e8;
+        --neon-blue: #0ff0fc;
+        --dark-bg: #0f0f1a;
+        --orange-accent: #ff6f00;
+    }
+    
+    .permis-hero {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{% static "images/driving-hero.jpg" %}');
+        background-size: cover;
+        background-position: center;
+        padding: 8rem 1rem;
+        text-align: center;
+        color: white;
+        margin-bottom: 3rem;
+    }
+    
+    .permis-hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .permis-hero p {
+        font-size: 1.3rem;
+        max-width: 800px;
+        margin: 0 auto;
+        opacity: 0.9;
+    }
+    
+    .process-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+    
+    .process-step {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: center;
+        margin-bottom: 5rem;
+    }
+    
+    .process-step:nth-child(even) .process-content {
+        order: -1;
+    }
+    
+    .process-image {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        height: 350px;
+    }
+    
+    .process-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .process-image:hover img {
+        transform: scale(1.05);
+    }
+    
+    .process-content h2 {
+        font-size: 2.2rem;
+        color: var(--primary-blue);
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+    
+    .process-content h2::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 80px;
+        height: 4px;
+        background: var(--orange-accent);
+    }
+    
+    .process-content p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #444;
+        margin-bottom: 1.5rem;
+    }
+    
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 4rem 0;
+    }
+    
+    .feature-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    }
+    
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+        background: rgba(26, 115, 232, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        font-size: 2rem;
+        color: var(--primary-blue);
+    }
+    
+    .feature-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: #333;
+    }
+    
+    .stats-section {
+        background: linear-gradient(135deg, #000428, #004e92);
+        color: white;
+        padding: 4rem 1rem;
+        margin: 4rem 0;
+        text-align: center;
+    }
+    
+    .stats-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+    
+    .stat-item {
+        padding: 2rem;
+    }
+    
+    .stat-number {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(90deg, var(--neon-blue), white);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    
+    .form-section {
+        max-width: 800px;
+        margin: 4rem auto;
+        padding: 3rem;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    }
+    
+    .form-section h2 {
+        text-align: center;
+        font-size: 2.2rem;
+        color: var(--primary-blue);
+        margin-bottom: 2rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+    
+    .submit-btn {
+        width: 100%;
+        padding: 1rem;
+        background: linear-gradient(90deg, var(--primary-blue), #0d47a1);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(26, 115, 232, 0.2);
+    }
+    
+    @media (max-width: 768px) {
+        .process-step {
+            grid-template-columns: 1fr;
+        }
+        
+        .process-step:nth-child(even) .process-content {
+            order: 0;
+        }
+        
+        .permis-hero h1 {
+            font-size: 2.5rem;
+        }
+    }
+</style>
+
+<section class="permis-hero">
+    <h1>Devenir Conducteur en Toute Confiance</h1>
+    <p>Notre formation complète vous prépare efficacement à l'examen du permis de conduire</p>
+</section>
+
+<div class="process-container">
+    <!-- Étape 1 : Inscription -->
+    <div class="process-step">
+        <div class="process-image">
+            <img src="{% static 'images/inscription-permis.jpg' %}" alt="Inscription au permis">
+        </div>
+        <div class="process-content">
+            <h2>1. Inscription & Évaluation</h2>
+            <p>Commencez votre parcours par une évaluation initiale gratuite avec nos instructeurs certifiés. Nous déterminons votre niveau pour personnaliser votre formation.</p>
+            <ul>
+                <li>Dossier d'inscription simplifié</li>
+                <li>Évaluation pratique offerte</li>
+                <li>Plan de formation sur mesure</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Étape 2 : Code de la route -->
+    <div class="process-step">
+        <div class="process-image">
+            <img src="{% static 'images/code-route.jpg' %}" alt="Code de la route">
+        </div>
+        <div class="process-content">
+            <h2>2. Formation Théorique</h2>
+            <p>Maîtrisez le code de la route avec nos méthodes innovantes :</p>
+            <ul>
+                <li>Cours en salle avec supports multimédias</li>
+                <li>Accès illimité à notre plateforme e-learning</li>
+                <li>Tests blancs en conditions réelles</li>
+                <li>Suivi personnalisé de votre progression</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Étape 3 : Conduite accompagnée -->
+    <div class="process-step">
+        <div class="process-image">
+            <img src="{% static 'images/conduite-accompagnee.jpg' %}" alt="Conduite accompagnée">
+        </div>
+        <div class="process-content">
+            <h2>3. Formation Pratique</h2>
+            <p>Apprenez à conduire en toute sécurité avec nos véhicules récents et parfaitement entretenus :</p>
+            <ul>
+                <li>20 à 30 heures de conduite (selon votre niveau)</li>
+                <li>Parcours variés (ville, campagne, autoroute)</li>
+                <li>Formation aux situations d'urgence</li>
+                <li>Simulateur de conduite haute technologie</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Étape 4 : Examen final -->
+    <div class="process-step">
+        <div class="process-image">
+            <img src="{% static 'images/examen-permis.jpg' %}" alt="Examen du permis">
+        </div>
+        <div class="process-content">
+            <h2>4. Passage de l'Examen</h2>
+            <p>Nous vous accompagnons jusqu'au jour J :</p>
+            <ul>
+                <li>Simulation d'examen en conditions réelles</li>
+                <li>Conseils pour gérer le stress</li>
+                <li>Prise en charge des formalités administratives</li>
+                <li>Véhicule d'examen fourni</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Nos avantages -->
+<section class="stats-section">
+    <div class="stats-container">
+        <h2>Pourquoi Choisir Odzuna ?</h2>
+        <p>Notre engagement pour votre réussite</p>
+        
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">98%</div>
+                <p>Taux de réussite au code</p>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">85%</div>
+                <p>Taux de réussite à l'examen pratique</p>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">30+</div>
+                <p>Véhicules de formation</p>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <p>Instructeurs diplômés</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Formations disponibles -->
+<div class="process-container">
+    <h2 style="text-align: center; font-size: 2.2rem; margin-bottom: 3rem; color: var(--primary-blue);">Nos Formules de Formation</h2>
+    
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-car"></i>
+            </div>
+            <h3>Permis B Classique</h3>
+            <p>Formation complète pour obtenir le permis voiture en 2-3 mois</p>
+            <p><strong>À partir de 350 000 FCFA</strong></p>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-tachometer-alt"></i>
+            </div>
+            <h3>Conduite Accompagnée</h3>
+            <p>Formation anticipée dès 16 ans avec réduction de la période probatoire</p>
+            <p><strong>À partir de 400 000 FCFA</strong></p>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-book"></i>
+            </div>
+            <h3>Code en Ligne</h3>
+            <p>Préparez le code à votre rythme avec accès illimité à notre plateforme</p>
+            <p><strong>50 000 FCFA</strong></p>
+        </div>
+    </div>
+</div>
+
+<!-- Formulaire de contact -->
+<div class="form-section">
+    <h2>Prêt à Commencer ?</h2>
+    <p style="text-align: center; margin-bottom: 2rem;">Inscrivez-vous dès maintenant à notre formation au permis de conduire</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="nom">Nom complet</label>
+            <input type="text" id="nom" name="nom" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="telephone">Téléphone</label>
+            <input type="tel" id="telephone" name="telephone" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="formation">Formation souhaitée</label>
+            <select id="formation" name="formation" class="form-control" required>
+                <option value="">Choisissez une option</option>
+                <option value="permis_b">Permis B Classique</option>
+                <option value="conduite_accompagnee">Conduite Accompagnée</option>
+                <option value="code_seul">Code en Ligne</option>
+            </select>
+        </div>
+        
+        <button type="submit" class="submit-btn">Demander plus d'informations</button>
+    </form>
+</div>
+
+<script>
+    // Animation des statistiques
+    document.addEventListener('DOMContentLoaded', function() {
+        const stats = document.querySelectorAll('.stat-number');
+        
+        stats.forEach(stat => {
+            const target = parseInt(stat.textContent);
+            let current = 0;
+            const increment = target / 30;
+            
+            const updateCount = () => {
+                current += increment;
+                if (current < target) {
+                    stat.textContent = Math.floor(current) + (stat.textContent.includes('%') ? '%' : '+');
+                    requestAnimationFrame(updateCount);
+                } else {
+                    stat.textContent = stat.textContent.includes('%') ? target + '%' : target + '+';
+                }
+            };
+            
+            updateCount();
+        });
+    });
+</script>
+{% endblock %}

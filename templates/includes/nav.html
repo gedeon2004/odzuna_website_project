@@ -1,152 +1,320 @@
-<nav class="main-navigation">
-    <!-- Barre de navigation principale -->
+{% load static %}
+<nav class="main-navigation" style="background:#fff; box-shadow:0 2px 4px rgba(0,0,0,0.1); position:relative; z-index:100;">
+    <!-- Ajout du CDN Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .nav-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .nav-logo { width: 40px; margin-right: 10px; }
+        .logo-text { display: inline-block; vertical-align: middle; }
+        .logo-primary { font-weight: bold; font-size: 1.2rem; color: #1a73e8; }
+        .logo-sub { font-size: 0.8rem; color: #666; }
+        .nav-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; }
+        .nav-item { position: relative; margin: 0 1rem; }
+        .nav-link { 
+            text-decoration: none; 
+            color: #333; 
+            font-weight: 600; 
+            display: flex; 
+            align-items: center; 
+            gap: 0.4rem;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+        .nav-link i {
+            font-size: 1rem;
+            width: 20px;
+            text-align: center;
+        }
+        .nav-link:hover { color: #1a73e8; }
+        .dropdown .mega-menu { 
+            display: none; 
+            position: absolute; 
+            top: 100%; 
+            left: 0; 
+            background: white; 
+            padding: 1rem; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+            z-index: 99; 
+            width: 700px;
+            border-radius: 8px;
+            animation: fadeIn 0.3s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .dropdown:hover .mega-menu { display: block; }
+        .mega-menu-container { display: flex; gap: 2rem; }
+        .mega-menu-section { flex: 1; }
+        .mega-menu-title { 
+            font-weight: bold; 
+            color: #1a73e8; 
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .mega-menu-list { list-style: none; padding: 0; margin: 0; }
+        .mega-menu-link { 
+            display: flex; 
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none; 
+            padding: 0.5rem 0; 
+            color: #333;
+            transition: all 0.2s ease;
+        }
+        .mega-menu-link i {
+            color: #ff6f00;
+            width: 20px;
+            text-align: center;
+        }
+        .mega-menu-link:hover { 
+            color: #ff6f00; 
+            transform: translateX(5px);
+        }
+        .menu-desc { 
+            font-size: 0.8rem; 
+            color: #777; 
+            display: block;
+            margin-left: 1.7rem;
+        }
+        .mega-menu-promo .promo-card { 
+            background: #f1f8ff; 
+            padding: 1rem; 
+            border-radius: 8px; 
+            text-align: center;
+            border: 1px solid #e1f0ff;
+        }
+        .promo-btn { 
+            display: inline-block; 
+            margin-top: 0.5rem; 
+            padding: 0.4rem 0.8rem; 
+            background: #1a73e8; 
+            color: white; 
+            border-radius: 4px; 
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .promo-btn:hover {
+            background: #0d5bba;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .nav-actions { 
+            display: flex; 
+            align-items: center; 
+            gap: 1.5rem;
+        }
+        .action-item {
+            position: relative;
+        }
+
+        .nav-link.call-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color:rgb(218, 49, 80);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-link.call-button:hover {
+            background-color: #45a049;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            color: white;
+        }
+        
+        .nav-link.call-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-link.call-button i {
+            margin-right: 8px;
+        }
+        
+
+        .lang-switcher {
+            position: relative;
+            display: inline-block;
+            z-index: 1000;
+        }
+        
+        .lang-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 30px;
+            color: #333;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .lang-btn:hover {
+            background: #f5f5f5;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .lang-code {
+            font-weight: bold;
+        }
+        
+        /* Dropdown */
+        .lang-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 160px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 8px 0;
+            margin-top: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .lang-switcher:hover .lang-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .lang-dropdown li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        
+        .lang-dropdown li a:hover {
+            background: #f5f5f5;
+        }
+        
+        /* Drapeaux */
+        .flag-icon {
+            display: inline-block;
+            width: 20px;
+            height: 15px;
+            background-size: cover;
+            border-radius: 2px;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .flag-icon-fr {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 6'%3E%3Cpath fill='%230055A4' d='M0 0h3v6H0z'/%3E%3Cpath fill='%23FFFFFF' d='M3 0h3v6H3z'/%3E%3Cpath fill='%23EF4135' d='M6 0h3v6H6z'/%3E%3C/svg%3E");
+        }
+        
+        .flag-icon-gb {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3Cpath fill='%23012169' d='M0 0h60v30H0z'/%3E%3Cpath fill='%23FFF' d='M0 0v30h60V0zM30 0v30M0 15h60'/%3E%3Cpath fill='%23C8102E' d='M0 12h60v6H0zM27 0h6v30h-6z'/%3E%3Cpath fill='%23FFF' d='m24 4l6 22m6-22l-6 22'/%3E%3Cpath fill='%23C8102E' d='m25 6l5 18m5-18l-5 18M21 0h18v6H21zM21 24h18v6H21z'/%3E%3C/svg%3E");
+        }
+        
+        /* Mobile menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+        @media (max-width: 992px) {
+            .nav-menu {
+                display: none;
+                width: 100%;
+                order: 3;
+                margin-top: 1rem;
+            }
+            .nav-list {
+                flex-direction: column;
+            }
+            .nav-item {
+                margin: 0.5rem 0;
+            }
+            .dropdown .mega-menu {
+                position: static;
+                width: 100%;
+                box-shadow: none;
+                padding: 0.5rem 0 0.5rem 1rem;
+            }
+            .mobile-menu-toggle {
+                display: block;
+            }
+            .nav-actions {
+                margin-left: auto;
+            }
+        }
+    </style>
+
     <div class="nav-container">
-        <!-- Logo avec effet hover -->
+        <!-- Logo -->
         <div class="nav-brand">
             <a href="{% url 'home' %}" class="logo-link">
-                <div class="logo-wrapper">
+                <div class="logo-wrapper" style="display:flex; align-items:center;">
                     <img src="{% static 'images/odzuna-icon.png' %}" alt="ODZUNA" class="nav-logo">
                     <span class="logo-text">
-                        <span class="logo-primary">ODZUNA</span>
+                        <span class="logo-primary">ODZUNA</span><br>
                         <span class="logo-sub">Votre passerelle</span>
                     </span>
                 </div>
             </a>
         </div>
 
-        <!-- Menu principal avec mega dropdown -->
+        <!-- Menu principal -->
         <div class="nav-menu">
             <ul class="nav-list">
-                <li class="nav-item">
-                    <a href="{% url 'home' %}" class="nav-link">
-                        <i class="fas fa-home nav-icon"></i>
-                        <span class="link-text">Accueil</span>
-                    </a>
-                </li>
+                <li class="nav-item"><a href="{% url 'home' %}" class="nav-link"><i class="fas fa-home"></i>Accueil</a></li>
+                <li class="nav-item"><a href="{% url 'about' %}" class="nav-link"><i class="fas fa-info-circle"></i>À propos</a></li>
 
-                <!-- Mega dropdown Services -->
-                <li class="nav-item dropdown mega-dropdown">
-                    <a href="#" class="nav-link dropdown-toggle">
-                        <i class="fas fa-concierge-bell nav-icon"></i>
-                        <span class="link-text">Services</span>
-                        <i class="dropdown-arrow fas fa-chevron-down"></i>
-                    </a>
+                <!-- Travel Dropdown -->
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link"><i class="fas fa-plane-departure"></i>Voyages <i class="fas fa-chevron-down"></i></a>
                     <div class="mega-menu">
                         <div class="mega-menu-container">
                             <div class="mega-menu-section">
-                                <h3 class="mega-menu-title">
-                                    <i class="fas fa-car"></i>
-                                    Automobile
-                                </h3>
+                                <h3 class="mega-menu-title"><i class="fas fa-globe-americas"></i> Destinations</h3>
                                 <ul class="mega-menu-list">
-                                    <li><a href="{% url 'services:automobiles' %}" class="mega-menu-link">
-                                        <i class="fas fa-car-side"></i>
-                                        Vente de véhicules
-                                        <span class="menu-desc">Neufs et d'occasion</span>
-                                    </a></li>
-                                    <li><a href="{% url 'services:pieces' %}" class="mega-menu-link">
-                                        <i class="fas fa-cogs"></i>
-                                        Pièces détachées
-                                        <span class="menu-desc">Originales et compatibles</span>
-                                    </a></li>
-                                    <li><a href="{% url 'services:permis' %}" class="mega-menu-link">
-                                        <i class="fas fa-id-card-alt"></i>
-                                        Permis de conduire
-                                        <span class="menu-desc">Formation complète</span>
-                                    </a></li>
+                                    <li><a href="{% url 'travel:canada' %}" class="mega-menu-link"><i class="fas fa-maple-leaf"></i> Canada <span class="menu-desc">Immigration et études</span></a></li>
+                                    <li><a href="{% url 'travel:usa' %}" class="mega-menu-link"><i class="fas fa-flag-usa"></i> États-Unis <span class="menu-desc">Visa et loterie</span></a></li>
+                                    <li><a href="{% url 'travel:schengen' %}" class="mega-menu-link"><i class="fas fa-flag-europe"></i> Europe <span class="menu-desc">Espace Schengen</span></a></li>
                                 </ul>
                             </div>
-
                             <div class="mega-menu-section">
-                                <h3 class="mega-menu-title">
-                                    <i class="fas fa-briefcase"></i>
-                                    Professionnel
-                                </h3>
+                                <h3 class="mega-menu-title"><i class="fas fa-passport"></i> Services</h3>
                                 <ul class="mega-menu-list">
-                                    <li><a href="{% url 'services:emploi' %}" class="mega-menu-link">
-                                        <i class="fas fa-user-tie"></i>
-                                        Aide à l'emploi
-                                        <span class="menu-desc">Local et international</span>
-                                    </a></li>
-                                    <li><a href="#" class="mega-menu-link">
-                                        <i class="fas fa-passport"></i>
-                                        Services consulaires
-                                        <span class="menu-desc">Documents officiels</span>
-                                    </a></li>
+                                    <li><a href="{% url 'travel:immigration' %}" class="mega-menu-link"><i class="fas fa-file-signature"></i> Procédures d'immigration <span class="menu-desc">Accompagnement complet</span></a></li>
+                                    <li><a href="{% url 'travel:loterie' %}" class="mega-menu-link"><i class="fas fa-ticket-alt"></i> Loterie des visas <span class="menu-desc">DV Lottery USA</span></a></li>
+                                    <li><a href="#" class="mega-menu-link"><i class="fas fa-hotel"></i> Réservations <span class="menu-desc">Hôtels et billets</span></a></li>
                                 </ul>
                             </div>
-
-                            <div class="mega-menu-promo">
-                                <div class="promo-card">
-                                    <h4>Offre spéciale</h4>
-                                    <p>Permis de conduire + Formation à 150,000 FCFA</p>
-                                    <a href="#" class="promo-btn">Voir l'offre</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- Mega dropdown Voyages -->
-                <li class="nav-item dropdown mega-dropdown">
-                    <a href="#" class="nav-link dropdown-toggle">
-                        <i class="fas fa-plane-departure nav-icon"></i>
-                        <span class="link-text">Voyages</span>
-                        <i class="dropdown-arrow fas fa-chevron-down"></i>
-                    </a>
-                    <div class="mega-menu">
-                        <div class="mega-menu-container">
-                            <div class="mega-menu-section">
-                                <h3 class="mega-menu-title">
-                                    <i class="fas fa-globe-americas"></i>
-                                    Destinations
-                                </h3>
-                                <ul class="mega-menu-list">
-                                    <li><a href="{% url 'travel:canada' %}" class="mega-menu-link">
-                                        <i class="fas fa-maple-leaf flag-icon"></i>
-                                        Canada
-                                        <span class="menu-desc">Immigration et études</span>
-                                    </a></li>
-                                    <li><a href="{% url 'travel:usa' %}" class="mega-menu-link">
-                                        <i class="fas fa-flag-usa flag-icon"></i>
-                                        États-Unis
-                                        <span class="menu-desc">Visa et loterie</span>
-                                    </a></li>
-                                    <li><a href="{% url 'travel:schengen' %}" class="mega-menu-link">
-                                        <i class="fas fa-flag-europe flag-icon"></i>
-                                        Europe
-                                        <span class="menu-desc">Espace Schengen</span>
-                                    </a></li>
-                                </ul>
-                            </div>
-
-                            <div class="mega-menu-section">
-                                <h3 class="mega-menu-title">
-                                    <i class="fas fa-passport"></i>
-                                    Services
-                                </h3>
-                                <ul class="mega-menu-list">
-                                    <li><a href="{% url 'travel:immigration' %}" class="mega-menu-link">
-                                        <i class="fas fa-file-signature"></i>
-                                        Procédures d'immigration
-                                        <span class="menu-desc">Accompagnement complet</span>
-                                    </a></li>
-                                    <li><a href="{% url 'travel:loterie' %}" class="mega-menu-link">
-                                        <i class="fas fa-ticket-alt"></i>
-                                        Loterie des visas
-                                        <span class="menu-desc">DV Lottery USA</span>
-                                    </a></li>
-                                    <li><a href="#" class="mega-menu-link">
-                                        <i class="fas fa-hotel"></i>
-                                        Réservations
-                                        <span class="menu-desc">Hôtels et billets</span>
-                                    </a></li>
-                                </ul>
-                            </div>
-
                             <div class="mega-menu-promo">
                                 <div class="promo-card visa-promo">
-                                    <h4>Dossier Canada</h4>
+                                    <h4><i class="fas fa-star"></i> Dossier Canada</h4>
                                     <p>Préparez votre immigration dès maintenant</p>
                                     <a href="#" class="promo-btn">Commencer</a>
                                 </div>
@@ -155,51 +323,60 @@
                     </div>
                 </li>
 
-                <li class="nav-item">
-                    <a href="{% url 'about' %}" class="nav-link">
-                        <i class="fas fa-info-circle nav-icon"></i>
-                        <span class="link-text">À propos</span>
-                    </a>
-                </li>
 
-                <li class="nav-item">
-                    <a href="{% url 'contact' %}" class="nav-link">
-                        <i class="fas fa-envelope nav-icon"></i>
-                        <span class="link-text">Contact</span>
-                    </a>
+                <!-- Services Dropdown -->
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link"><i class="fas fa-concierge-bell"></i>Services <i class="fas fa-chevron-down"></i></a>
+                    <div class="mega-menu">
+                        <div class="mega-menu-container">
+                            <div class="mega-menu-section">
+                                <h3 class="mega-menu-title"><i class="fas fa-car"></i> Automobile</h3>
+                                <ul class="mega-menu-list">
+                                    <li><a href="{% url 'services:automobiles' %}" class="mega-menu-link"><i class="fas fa-car-side"></i> Vente de véhicules <span class="menu-desc">Neufs et d'occasion</span></a></li>
+                                    <li><a href="{% url 'services:pieces' %}" class="mega-menu-link"><i class="fas fa-cogs"></i> Pièces détachées <span class="menu-desc">Originales et compatibles</span></a></li>
+                                    <li><a href="{% url 'services:permis' %}" class="mega-menu-link"><i class="fas fa-id-card-alt"></i> Permis de conduire <span class="menu-desc">Formation complète</span></a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-section">
+                                <h3 class="mega-menu-title"><i class="fas fa-briefcase"></i> Professionnel</h3>
+                                <ul class="mega-menu-list">
+                                    <li><a href="{% url 'services:emploi' %}" class="mega-menu-link"><i class="fas fa-user-tie"></i> Aide à l'emploi <span class="menu-desc">Local et international</span></a></li>
+                                    <li><a href="#" class="mega-menu-link"><i class="fas fa-passport"></i> Services consulaires <span class="menu-desc">Documents officiels</span></a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-promo">
+                                <div class="promo-card">
+                                    <h4><i class="fas fa-gift"></i> Offre spéciale</h4>
+                                    <p>Permis de conduire + Formation à 150,000 FCFA</p>
+                                    <a href="#" class="promo-btn">Voir l'offre</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </li>
+                
+                <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link"><i class="fas fa-envelope"></i>Contact</a></li>
             </ul>
         </div>
 
-        <!-- Actions utilisateur -->
+        <!-- Actions rapides -->
         <div class="nav-actions">
-            <div class="action-item search-box">
-                <button class="search-btn">
-                    <i class="fas fa-search"></i>
-                </button>
-                <div class="search-container">
-                    <input type="text" placeholder="Rechercher...">
-                    <button class="search-submit">
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
-                </div>
+            <div class="action-item">
+                <a href="tel:+228XXXXXXXX" class="nav-link call-button">
+                    <i class="fas fa-phone-alt"></i> Appelez-nous
+                </a>
             </div>
-
             <div class="action-item lang-switcher">
-                <button class="lang-btn">
-                    <i class="fas fa-globe"></i>
-                    <span>FR</span>
+                <button class="lang-btn nav-link">
+                    <i class="fas fa-globe"></i> 
+                    <span class="lang-code">FR</span> 
+                    <i class="fas fa-chevron-down"></i>
                 </button>
                 <ul class="lang-dropdown">
-                    <li><a href="#">Français</a></li>
-                    <li><a href="#">English</a></li>
+                    <li><a href="#" data-lang="fr"><span class="flag-icon flag-icon-fr"></span> Français</a></li>
+                    <li><a href="#" data-lang="en"><span class="flag-icon flag-icon-gb"></span> English</a></li>
                 </ul>
             </div>
-
-            <a href="tel:+228XXXXXXXX" class="action-item phone-link">
-                <i class="fas fa-phone-alt"></i>
-                <span class="phone-text">Appelez-nous</span>
-            </a>
         </div>
 
         <!-- Bouton mobile -->
@@ -209,7 +386,70 @@
             <span class="menu-bar"></span>
         </button>
     </div>
-
-    <!-- Barre de progression -->
-    <div class="nav-progress-bar"></div>
 </nav>
+
+<script>
+    // Mobile menu toggle
+    document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+        const navMenu = document.querySelector('.nav-menu');
+        navMenu.style.display = navMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const langSwitcher = document.querySelector('.lang-switcher');
+    const langBtn = document.querySelector('.lang-btn');
+    const langCode = document.querySelector('.lang-code');
+    const langOptions = document.querySelectorAll('.lang-dropdown a');
+    
+    // Gérer le clic sur les options de langue
+    langOptions.forEach(option => {
+        option.addEventListener('click', function(e) {
+            e.preventDefault();
+            const selectedLang = this.getAttribute('data-lang');
+            
+            // Mettre à jour l'affichage du bouton
+            if (selectedLang === 'fr') {
+                langCode.textContent = 'FR';
+                // Trouver et mettre à jour l'icône du drapeau si vous en ajoutez un dans le bouton
+            } else if (selectedLang === 'en') {
+                langCode.textContent = 'EN';
+            }
+            
+            // Ici vous devriez implémenter la logique pour changer la langue du site
+            changeLanguage(selectedLang);
+            
+            // Fermer le dropdown
+            document.querySelector('.lang-dropdown').style.opacity = '0';
+            document.querySelector('.lang-dropdown').style.visibility = 'hidden';
+        });
+    });
+    
+    // Fonction pour changer la langue (à adapter à votre site)
+    function changeLanguage(lang) {
+        console.log(`Changement de langue vers: ${lang}`);
+        // Implémentez ici la logique pour changer la langue de votre site
+        // Cela peut inclure:
+        // 1. Envoyer une requête au serveur
+        // 2. Charger de nouveaux contenus
+        // 3. Mettre à jour les textes via JavaScript
+        // 4. Stocker le choix dans un cookie/localStorage
+        
+        // Exemple basique avec localStorage:
+        localStorage.setItem('preferredLanguage', lang);
+        
+        // Recharger la page ou mettre à jour le contenu dynamiquement
+        // window.location.reload();
+    }
+    
+    // Vérifier la langue stockée au chargement
+    const savedLang = localStorage.getItem('preferredLanguage');
+    if (savedLang) {
+        if (savedLang === 'fr') {
+            langCode.textContent = 'FR';
+        } else if (savedLang === 'en') {
+            langCode.textContent = 'EN';
+        }
+    }
+});
+</script>

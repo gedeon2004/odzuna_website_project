@@ -1,263 +1,1074 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block body_class %}home-page{% endblock %}
+{% block title %}Accueil | Odzuna - L'expérience ultime{% endblock %}
 
 {% block content %}
-<!-- Hero Section avec vidéo de fond -->
+<style>
+    /* ANIMATIONS CUSTOM */
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+    }
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+    @keyframes gradientFlow {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    
+    /* STYLES EPIQUES */
+    .hero-section {
+        position: relative;
+        padding: 8rem 2rem;
+        text-align: center;
+        background: linear-gradient(135deg, #6e45e2 0%, #8921ff 50%, #ff3a5e 100%);
+        background-size: 400% 400%;
+        animation: gradientFlow 15s ease infinite;
+        color: white;
+        overflow: hidden;
+        clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+    }
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.3) 0%, transparent 50%);
+    }
+    .hero-title {
+        font-size: 4.5rem;
+        font-weight: 900;
+        margin-bottom: 1.5rem;
+        text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+        animation: fadeInDown 1s both;
+    }
+    .hero-subtitle {
+        font-size: 1.8rem;
+        max-width: 800px;
+        margin: 0 auto 3rem;
+        animation: fadeInUp 1s 0.3s both;
+    }
+    .cta-button {
+        display: inline-block;
+        padding: 1.2rem 2.5rem;
+        background: #00f0ff;
+        color: #0f0c29;
+        border-radius: 50px;
+        font-weight: bold;
+        text-decoration: none;
+        font-size: 1.2rem;
+        box-shadow: 0 10px 30px rgba(0, 240, 255, 0.5);
+        transition: all 0.3s ease;
+        animation: pulse 2s infinite;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+    .cta-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.6s ease;
+        z-index: -1;
+    }
+    .cta-button:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 240, 255, 0.7);
+    }
+    .cta-button:hover::before {
+        transform: translateX(100%);
+    }
+    
+    /* SERVICES SECTION */
+    .services-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        max-width: 1200px;
+        margin: -5rem auto 5rem;
+        position: relative;
+        z-index: 2;
+    }
+    .service-card {
+        flex: 1;
+        min-width: 300px;
+        margin: 1rem;
+        padding: 2.5rem;
+        background: rgba(255,255,255,0.95);
+        border-radius: 20px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        transition: all 0.4s ease;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.3);
+        transform-style: preserve-3d;
+        perspective: 1000px;
+    }
+    .service-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+    }
+    .service-card:nth-child(1) {
+        background: linear-gradient(135deg, rgba(227, 242, 253, 0.95) 0%, rgba(179, 229, 252, 0.95) 100%);
+    }
+    .service-card:nth-child(2) {
+        background: linear-gradient(135deg, rgba(255, 243, 224, 0.95) 0%, rgba(255, 224, 178, 0.95) 100%);
+    }
+    .service-card h3 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        color: #0f0c29;
+        position: relative;
+        display: inline-block;
+    }
+    .service-card h3::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: #ff3a5e;
+        transition: width 0.3s ease;
+    }
+    .service-card:hover h3::after {
+        width: 100%;
+    }
+    .service-card p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #333;
+    }
+    
+    /* FEATURES SECTION */
+    .features-section {
+        padding: 6rem 2rem;
+        background: #f9f9f9;
+        position: relative;
+    }
+    .features-section::before {
+        content: '';
+        position: absolute;
+        top: -100px;
+        left: 0;
+        right: 0;
+        height: 100px;
+        background: #f9f9f9;
+        clip-path: polygon(0 0, 100% 0, 100% 20%, 0 100%);
+    }
+    .section-title {
+        text-align: center;
+        font-size: 2.8rem;
+        margin-bottom: 5rem;
+        position: relative;
+        display: inline-block;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 4px;
+        background: linear-gradient(to right, #6e45e2, #ff3a5e);
+    }
+    
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 3rem;
+        }
+        .hero-subtitle {
+            font-size: 1.3rem;
+        }
+        .service-card {
+            min-width: 100%;
+        }
+    }
+
+
+    .service-domain, .travel-domain {
+        padding: 5rem 1rem;
+        position: relative;
+    }
+    
+    .service-container, .travel-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    /* Section Services */
+    .service-domain {
+        background-color: #f8f9fa;
+    }
+    
+    .service-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .service-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #6e45e2, #8921ff);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+        margin: 0 auto 1.5rem;
+        position: relative;
+    }
+    
+    .icon-ripple {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 1px solid #6e45e2;
+        animation: ripple 2s infinite;
+        opacity: 0;
+    }
+    
+    .service-title {
+        font-size: 2.5rem;
+        color: #1a237e;
+        margin-bottom: 0.5rem;
+    }
+    
+    .service-subtitle {
+        font-size: 1.2rem;
+        color: #555;
+    }
+    
+    .service-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+    
+    .service-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem 1.5rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(110, 69, 226, 0.1);
+    }
+    
+    .service-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #6e45e2, #8921ff);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+    }
+    
+    .service-card:hover::after {
+        transform: scaleX(1);
+    }
+    
+    .service-card .card-icon {
+        width: 50px;
+        height: 50px;
+        background: rgba(110, 69, 226, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6e45e2;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .service-card h3 {
+        font-size: 1.3rem;
+        color: #333;
+        margin-bottom: 0.8rem;
+    }
+    
+    .service-card p {
+        color: #666;
+        margin-bottom: 1.5rem;
+        font-size: 0.95rem;
+    }
+    
+    .card-stats {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85rem;
+        color: #6e45e2;
+        font-weight: 500;
+    }
+    
+    .service-cta {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        color: #6e45e2;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 1.1rem;
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 1rem;
+        border: 2px solid #6e45e2;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+    }
+    
+    .service-cta:hover {
+        background: #6e45e2;
+        color: white;
+        gap: 1rem;
+    }
+    
+    /* Section Travel */
+    .travel-domain {
+        background-color: #fff;
+    }
+    
+    .travel-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .travel-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #ff6f00, #ff3a5e);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+        margin: 0 auto 1.5rem;
+        position: relative;
+    }
+    
+    .travel-title {
+        font-size: 2.5rem;
+        color: #d84315;
+        margin-bottom: 0.5rem;
+    }
+    
+    .travel-subtitle {
+        font-size: 1.2rem;
+        color: #555;
+    }
+    
+    .travel-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+    
+    .travel-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem 1.5rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .travel-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(255, 111, 0, 0.1);
+    }
+    
+    .travel-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #ff6f00, #ff3a5e);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+    }
+    
+    .travel-card:hover::after {
+        transform: scaleX(1);
+    }
+    
+    .travel-card .card-icon {
+        width: 50px;
+        height: 50px;
+        background: rgba(255, 111, 0, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ff6f00;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .travel-card h3 {
+        font-size: 1.3rem;
+        color: #333;
+        margin-bottom: 0.8rem;
+    }
+    
+    .travel-card p {
+        color: #666;
+        margin-bottom: 1.5rem;
+        font-size: 0.95rem;
+    }
+    
+    .travel-card .card-stats {
+        color: #ff6f00;
+    }
+    
+    .travel-cta {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        color: #ff6f00;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 1.1rem;
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 1rem;
+        border: 2px solid #ff6f00;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+    }
+    
+    .travel-cta:hover {
+        background: #ff6f00;
+        color: white;
+        gap: 1rem;
+    }
+    
+    /* Animations */
+    @keyframes ripple {
+        0% { transform: scale(0.8); opacity: 0.7; }
+        70% { transform: scale(1.3); opacity: 0; }
+        100% { opacity: 0; }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .service-title, .travel-title {
+            font-size: 2rem;
+        }
+        
+        .service-grid, .travel-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .service-cta, .travel-cta {
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+
+
+    .odz-faq-section {
+        padding: 4rem 1rem;
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        position: relative;
+    }
+
+    .odz-container {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .odz-faq-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .odz-section-title {
+        font-size: 2.2rem;
+        color: #1a73e8;
+        margin-bottom: 0.5rem;
+        position: relative;
+        display: inline-block;
+    }
+
+    .odz-section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: #ff6f00;
+    }
+
+    .odz-section-subtitle {
+        font-size: 1.1rem;
+        color: #555;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .odz-faq-grid {
+        display: grid;
+        gap: 1.5rem;
+    }
+
+    .odz-faq-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .odz-faq-card:hover {
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+
+    .odz-faq-question {
+        padding: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .odz-faq-question h3 {
+        margin: 0;
+        font-size: 1.2rem;
+        color: #333;
+        flex: 1;
+    }
+
+    .odz-faq-toggle {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #1a73e8;
+        margin-left: 1rem;
+        transition: transform 0.3s ease;
+    }
+
+    .odz-faq-answer {
+        padding: 0 1.5rem;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+
+    .odz-faq-card.active .odz-faq-answer {
+        max-height: 300px;
+        padding-bottom: 1.5rem;
+    }
+
+    .odz-faq-card.active .odz-faq-toggle {
+        transform: rotate(45deg);
+    }
+
+    .odz-faq-cta {
+        text-align: center;
+        margin-top: 3rem;
+    }
+
+    .odz-faq-cta p {
+        color: #555;
+        margin-bottom: 1rem;
+    }
+
+    .odz-btn {
+        display: inline-block;
+        padding: 0.8rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .odz-btn-primary {
+        background: #1a73e8;
+        color: white;
+    }
+
+    .odz-btn-primary:hover {
+        background: #0d5dc7;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(26, 115, 232, 0.3);
+    }
+
+    @media (max-width: 768px) {
+        .odz-section-title {
+            font-size: 1.8rem;
+        }
+        
+        .odz-faq-question h3 {
+            font-size: 1.1rem;
+        }
+    }
+
+
+    .feedback-section {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        margin: 40px 0;
+        padding: 20px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+
+    .feedback-image-container {
+        flex: 1;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .worried-person-img {
+        max-width: 900px;
+        height: auto;
+        filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+        transition: transform 0.3s ease;
+    }
+
+    .worried-person-img:hover {
+        transform: scale(1.05);
+    }
+
+    .image-caption {
+        margin-top: 15px;
+        font-style: italic;
+        color: #6c757d;
+        font-size: 1.1rem;
+    }
+
+    .vision-promo {
+        flex: 1;
+        padding: 20px;
+    }
+
+    .animated-paragraph {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        animation: fadeInUp 0.8s ease;
+    }
+
+    .animated-paragraph h3 {
+        color: #2c3e50;
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+    }
+
+    .animated-paragraph p {
+        color: #495057;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    .vision-btn {
+        display: inline-block;
+        padding: 12px 25px;
+        background: linear-gradient(to right, #3498db, #2c3e50);
+        color: white;
+        text-decoration: none;
+        border-radius: 30px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .vision-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        background: linear-gradient(to right, #2c3e50, #3498db);
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .feedback-section {
+            flex-direction: column;
+        }
+        
+        .feedback-image-container, 
+        .vision-promo {
+            width: 100%;
+        }
+    }
+</style>
+
+<!-- HERO SECTION ÉPIQUE -->
 <section class="hero-section">
-    <div class="hero-video">
-        <video autoplay muted loop playsinline>
-            <source src="{% static 'videos/hero-background.mp4' %}" type="video/mp4">
-        </video>
-        <div class="video-overlay"></div>
+    <h1 class="hero-title animate__animated animate__fadeInDown">ODZUNA</h1>
+    <p class="hero-subtitle animate__animated animate__fadeInUp">Votre passerelle vers le monde : automobiles, immigration, voyages, opportunités.</p>
+    <a href="#services" class="cta-button animate__animated animate__pulse animate__infinite">Découvrir nos services</a>
+    
+    <!-- Effets visuels -->
+    <div style="position: absolute; top: 20%; left: 10%; width: 30px; height: 30px; background: rgba(255,255,255,0.3); border-radius: 50%; animation: float 6s ease-in-out infinite;"></div>
+    <div style="position: absolute; top: 60%; right: 15%; width: 50px; height: 50px; background: rgba(255,255,255,0.2); border-radius: 50%; animation: float 8s ease-in-out infinite 2s;"></div>
+</section>
+
+<!-- SERVICES SECTION QUI DÉCHIRE -->
+<div id="services" class="services-container">
+    <div class="service-card wow-section">
+        <h3>Odzuna Services</h3>
+        <p>Vente de voitures, pièces détachées, auto-école, aide à l'emploi avec des solutions clés en main pour vos besoins automobiles et professionnels.</p>
+        <div style="margin-top: 2rem; text-align: center;">
+            <span style="display: inline-block; padding: 0.5rem 1.5rem; background: #6e45e2; color: white; border-radius: 50px; font-size: 0.9rem;">En savoir plus →</span>
+        </div>
     </div>
     
-    <div class="hero-content">
-        <h1 class="hero-title">
-            <span class="title-line">Votre passerelle vers</span>
-            <span class="title-line highlight">le monde</span>
-        </h1>
-        <p class="hero-subtitle">Solutions intégrées pour vos projets automobiles et de voyage</p>
-        
-        <div class="hero-buttons">
-            <a href="#services" class="btn btn-primary">
-                <span>Nos services</span>
-                <i class="fas fa-arrow-down"></i>
-            </a>
-            <a href="{% url 'contact' %}" class="btn btn-secondary">
-                <span>Contactez-nous</span>
-                <i class="fas fa-envelope"></i>
-            </a>
+    <div class="service-card wow-section">
+        <h3>Odzuna Travel</h3>
+        <p>Immigration, visa, loterie américaine, Canada, Europe, USA. Nous transformons vos rêves de voyage et d'immigration en réalité.</p>
+        <div style="margin-top: 2rem; text-align: center;">
+            <span style="display: inline-block; padding: 0.5rem 1.5rem; background: #ff3a5e; color: white; border-radius: 50px; font-size: 0.9rem;">En savoir plus →</span>
         </div>
-        
-        <div class="scroll-indicator">
-            <div class="mouse">
-                <div class="wheel"></div>
+    </div>
+</div>
+
+<!-- FEATURES SECTION -->
+<section class="features-section">
+    <h2 class="section-title">Pourquoi choisir Odzuna ?</h2>
+    
+    <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+        <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: all 0.3s ease;">
+            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #6e45e2, #8921ff); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                <span style="color: white; font-size: 1.5rem;">🚀</span>
             </div>
-            <span>Défiler</span>
-        </div>
-    </div>
-</section>
-
-<!-- Section Statistiques -->
-<section class="stats-section">
-    <div class="stats-container">
-        <div class="stat-card">
-            <div class="stat-number" data-count="1500">0</div>
-            <div class="stat-label">Clients satisfaits</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number" data-count="12">0</div>
-            <div class="stat-label">Pays desservis</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number" data-count="98">0</div>
-            <div class="stat-label">% de réussite</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number" data-count="24">0</div>
-            <div class="stat-label">/7 Support</div>
-        </div>
-    </div>
-</section>
-
-<!-- Section Services -->
-<section id="services" class="services-section">
-    <div class="section-header">
-        <h2 class="section-title">Nos <span>Services</span></h2>
-        <p class="section-subtitle">Découvrez notre gamme complète de solutions</p>
-        <div class="section-divider"></div>
-    </div>
-    
-    <div class="services-tabs">
-        <div class="tab-buttons">
-            <button class="tab-button active" data-tab="services">Odzuna Services</button>
-            <button class="tab-button" data-tab="travel">Odzuna Travel</button>
+            <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Expérience sans pareil</h3>
+            <p style="line-height: 1.6;">Notre expertise unique vous garantit des résultats exceptionnels dans tous vos projets.</p>
         </div>
         
-        <div class="tab-content active" id="services-tab">
-            <div class="services-grid">
-                <a href="{% url 'services:automobiles' %}" class="service-card">
-                    <div class="service-icon">
+        <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: all 0.3s ease;">
+            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #ff3a5e, #ff6f00); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                <span style="color: white; font-size: 1.5rem;">✨</span>
+            </div>
+            <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Solutions sur mesure</h3>
+            <p style="line-height: 1.6;">Des services personnalisés adaptés à vos besoins spécifiques et à vos ambitions.</p>
+        </div>
+        
+        <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: all 0.3s ease;">
+            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #00f0ff, #00bcd4); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                <span style="color: white; font-size: 1.5rem;">🌍</span>
+            </div>
+            <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Réseau international</h3>
+            <p style="line-height: 1.6;">Un réseau de partenaires à travers le monde pour vous ouvrir toutes les portes.</p>
+        </div>
+    </div>
+
+    <!-- SECTION SERVICES -->
+    <section class="service-domain">
+        <div class="service-container">
+            <div class="service-header">
+                <div class="service-icon">
+                    <i class="fas fa-car-side"></i>
+                    <div class="icon-ripple"></div>
+                </div>
+                <h2 class="service-title">Odzuna Services</h2>
+                <p class="service-subtitle">Votre partenaire automobile complet</p>
+            </div>
+            
+            <div class="service-grid">
+                <!-- Carte Véhicules -->
+                <div class="service-card vehicle-card">
+                    <div class="card-icon">
                         <i class="fas fa-car"></i>
                     </div>
-                    <h3>Vente d'automobiles</h3>
-                    <p>Véhicules de qualité à des prix compétitifs</p>
-                    <div class="service-hover">
-                        <span>En savoir plus</span>
-                        <i class="fas fa-arrow-right"></i>
+                    <h3>Véhicules Neufs & Occasion</h3>
+                    <p>Large sélection de véhicules vérifiés et garantis</p>
+                    <div class="card-stats">
+                        <span>500+ livraisons</span>
+                        <span>98% satisfaction</span>
                     </div>
-                </a>
+                </div>
                 
-                <a href="{% url 'services:pieces' %}" class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-cogs"></i>
+                <!-- Carte Pièces -->
+                <div class="service-card parts-card">
+                    <div class="card-icon">
+                        <i class="fas fa-cog"></i>
                     </div>
-                    <h3>Pièces détachées</h3>
-                    <p>Pièces authentiques pour tous modèles</p>
-                    <div class="service-hover">
-                        <span>En savoir plus</span>
-                        <i class="fas fa-arrow-right"></i>
+                    <h3>Pièces Détachées</h3>
+                    <p>Pièces originales et compatibles pour toutes marques</p>
+                    <div class="card-stats">
+                        <span>100+ fournisseurs</span>
+                        <span>Livraison rapide</span>
                     </div>
-                </a>
+                </div>
                 
-                <a href="{% url 'services:permis' %}" class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-id-card-alt"></i>
+                <!-- Carte Permis -->
+                <div class="service-card license-card">
+                    <div class="card-icon">
+                        <i class="fas fa-id-card"></i>
                     </div>
-                    <h3>Permis de conduire</h3>
-                    <p>Formation complète et accompagnement</p>
-                    <div class="service-hover">
-                        <span>En savoir plus</span>
-                        <i class="fas fa-arrow-right"></i>
+                    <h3>Accompagnement Permis</h3>
+                    <p>Formation complète pour réussir votre examen</p>
+                    <div class="card-stats">
+                        <span>85% réussite</span>
+                        <span>Instructeurs certifiés</span>
                     </div>
-                </a>
+                </div>
                 
-                <a href="{% url 'services:emploi' %}" class="service-card">
-                    <div class="service-icon">
+                <!-- Carte Emploi -->
+                <div class="service-card job-card">
+                    <div class="card-icon">
                         <i class="fas fa-briefcase"></i>
                     </div>
-                    <h3>Aide à l'emploi</h3>
-                    <p>Opportunités professionnelles</p>
-                    <div class="service-hover">
-                        <span>En savoir plus</span>
-                        <i class="fas fa-arrow-right"></i>
+                    <h3>Aide à l'Emploi</h3>
+                    <p>Services de placement et conseils professionnels</p>
+                    <div class="card-stats">
+                        <span>200+ placements</span>
+                        <span>CV Professionnels</span>
                     </div>
-                </a>
+                </div>
             </div>
+            
+            <a href="#" class="service-cta">
+                Découvrez nos services automobiles <i class="fas fa-chevron-right"></i>
+            </a>
         </div>
-        
-        <div class="tab-content" id="travel-tab">
-            <div class="services-grid">
-                <a href="{% url 'travel:immigration' %}" class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-passport"></i>
-                    </div>
-                    <h3>Immigration</h3>
-                    <p>Solutions globales d'immigration</p>
-                    <div class="service-hover">
-                        <span>En savoir plus</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                </a>
-                
-                <a href="{% url 'travel:canada' %}" class="service-card">
-                    <div class="service-icon">
+    </section>
+
+    <!-- SECTION TRAVEL -->
+    <section class="travel-domain">
+        <div class="travel-container">
+            <div class="travel-header">
+                <div class="travel-icon">
+                    <i class="fas fa-plane"></i>
+                    <div class="icon-ripple"></div>
+                </div>
+                <h2 class="travel-title">Odzuna Travel</h2>
+                <p class="travel-subtitle">Votre passerelle vers le monde</p>
+            </div>
+            
+            <div class="travel-grid">
+                <!-- Carte Canada -->
+                <div class="travel-card canada-card">
+                    <div class="card-icon">
                         <i class="fas fa-maple-leaf"></i>
                     </div>
-                    <h3>Canada</h3>
-                    <p>Réalisez votre rêve canadien</p>
-                    <div class="service-hover">
-                        <span>En savoir plus</span>
-                        <i class="fas fa-arrow-right"></i>
+                    <h3>Immigration Canada</h3>
+                    <p>Programmes fédéraux et provinciaux</p>
+                    <div class="card-stats">
+                        <span>95% acceptation</span>
+                        <span>Experts certifiés</span>
                     </div>
-                </a>
+                </div>
                 
-                <a href="{% url 'travel:schengen' %}" class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-flag-europe"></i>
+                <!-- Carte Schengen -->
+                <div class="travel-card schengen-card">
+                    <div class="card-icon">
+                        <i class="fas fa-landmark"></i>
                     </div>
-                    <h3>Espace Schengen</h3>
-                    <p>Accès à l'Europe simplifié</p>
-                    <div class="service-hover">
-                        <span>En savoir plus</span>
-                        <i class="fas fa-arrow-right"></i>
+                    <h3>Visa Schengen</h3>
+                    <p>Assistance complète pour l'Europe</p>
+                    <div class="card-stats">
+                        <span>Dossiers optimisés</span>
+                        <span>Suivi personnalisé</span>
                     </div>
-                </a>
+                </div>
                 
-                <a href="{% url 'travel:loterie' %}" class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-ticket-alt"></i>
+                <!-- Carte USA -->
+                <div class="travel-card usa-card">
+                    <div class="card-icon">
+                        <i class="fas fa-flag-usa"></i>
                     </div>
-                    <h3>Loterie Visa</h3>
-                    <p>Assistance pour la loterie américaine</p>
-                    <div class="service-hover">
-                        <span>En savoir plus</span>
-                        <i class="fas fa-arrow-right"></i>
+                    <h3>Loterie Visa USA</h3>
+                    <p>Accompagnement pour la DV Lottery</p>
+                    <div class="card-stats">
+                        <span>10 ans d'expérience</span>
+                        <span>Photos conformes</span>
                     </div>
-                </a>
+                </div>
+                
+                <!-- Carte Voyages -->
+                <div class="travel-card trips-card">
+                    <div class="card-icon">
+                        <i class="fas fa-suitcase-rolling"></i>
+                    </div>
+                    <h3>Voyages Sur Mesure</h3>
+                    <p>Circuits adaptés à vos besoins</p>
+                    <div class="card-stats">
+                        <span>50+ destinations</span>
+                        <span>Assurance incluse</span>
+                    </div>
+                </div>
             </div>
+            
+            <a href="#" class="travel-cta">
+                Explorez nos services de voyage <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+    </section>
+</section>
+
+<!-- FAQ Section - À placer dans votre index.html -->
+<section class="odz-faq-section">
+    <div class="odz-container">
+        <div class="odz-faq-header">
+            <h2 class="odz-section-title">Questions Fréquentes</h2>
+            <p class="odz-section-subtitle">Trouvez rapidement les réponses à vos interrogations</p>
+        </div>
+
+        <div class="odz-faq-grid">
+            <!-- Question 1 -->
+            <div class="odz-faq-card">
+                <div class="odz-faq-question">
+                    <h3>Comment s'inscrire à la formation permis de conduire ?</h3>
+                    <span class="odz-faq-toggle">+</span>
+                </div>
+                <div class="odz-faq-answer">
+                    <p>L'inscription se fait en 3 étapes simples : remplissez notre formulaire en ligne, passez une évaluation gratuite avec nos instructeurs, puis finalisez votre dossier administratif. Tout se fait en moins de 48h !</p>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="odz-faq-card">
+                <div class="odz-faq-question">
+                    <h3>Quels documents faut-il pour acheter une voiture d'occasion ?</h3>
+                    <span class="odz-faq-toggle">+</span>
+                </div>
+                <div class="odz-faq-answer">
+                    <p>Vous aurez besoin de : carte d'identité valide, justificatif de domicile, permis de conduire, et pour certains véhicules, un contrôle technique récent. Notre équipe vous guide pour toutes les formalités.</p>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="odz-faq-card">
+                <div class="odz-faq-question">
+                    <h3>Quelle est la durée de traitement pour un visa Schengen ?</h3>
+                    <span class="odz-faq-toggle">+</span>
+                </div>
+                <div class="odz-faq-answer">
+                    <p>Le délai moyen est de 15 jours ouvrés, mais peut varier selon la saison. Nous recommandons de commencer les démarches 3 mois avant la date de voyage prévue pour plus de sérénité.</p>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="odz-faq-card">
+                <div class="odz-faq-question">
+                    <h3>Proposez-vous des facilités de paiement ?</h3>
+                    <span class="odz-faq-toggle">+</span>
+                </div>
+                <div class="odz-faq-answer">
+                    <p>Oui ! Pour tous nos services (permis, véhicules, voyages), nous proposons des plans de paiement échelonnés sans frais supplémentaires. Des solutions adaptées à chaque budget.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="odz-faq-cta">
+            <p>Vous ne trouvez pas réponse à votre question ?</p>
+            <a href="/contact" class="odz-btn odz-btn-primary">Contactez notre équipe</a>
         </div>
     </div>
 </section>
 
-<!-- Section Témoignages -->
-<section class="testimonials-section">
-    <div class="section-header">
-        <h2 class="section-title">Ils nous <span>font confiance</span></h2>
-        <p class="section-subtitle">Découvrez ce que nos clients disent de nous</p>
-        <div class="section-divider"></div>
+<div class="feedback-section">
+    <!-- Division gauche - Image personne inquiète -->
+    <div class="feedback-image-container">
+        <img src="https://i.pinimg.com/736x/f2/2c/8c/f22c8c5cf59fe5faf9d466e69cde0ee1.jpg" alt="Personne insatisfaite" class="worried-person-img">
+        <p class="image-caption">Vous n'avez pas trouvé réponse à votre question ?</p>
     </div>
-    
-    <div class="testimonials-slider">
-        <div class="testimonial-card">
-            <div class="testimonial-content">
-                <div class="quote-icon">
-                    <i class="fas fa-quote-left"></i>
-                </div>
-                <p>Grâce à ODZUNA, j'ai pu obtenir mon visa pour le Canada en un temps record. Professionnalisme et efficacité!</p>
-            </div>
-            <div class="testimonial-author">
-                <img src="{% static 'images/client1.jpg' %}" alt="Client">
-                <div class="author-info">
-                    <h4>Koffi A.</h4>
-                    <span>Client Immigration</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="testimonial-card">
-            <div class="testimonial-content">
-                <div class="quote-icon">
-                    <i class="fas fa-quote-left"></i>
-                </div>
-                <p>La voiture achetée chez ODZUNA est en parfait état depuis 2 ans. Sérieux et suivi après-vente impeccable.</p>
-            </div>
-            <div class="testimonial-author">
-                <img src="{% static 'images/client2.jpg' %}" alt="Client">
-                <div class="author-info">
-                    <h4>Ama D.</h4>
-                    <span>Client Automobile</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="testimonial-card">
-            <div class="testimonial-content">
-                <div class="quote-icon">
-                    <i class="fas fa-quote-left"></i>
-                </div>
-                <p>Accompagnement personnalisé pour mon permis. J'ai réussi du premier coup grâce à leurs moniteurs compétents.</p>
-            </div>
-            <div class="testimonial-author">
-                <img src="{% static 'images/client3.jpg' %}" alt="Client">
-                <div class="author-info">
-                    <h4>Komlan S.</h4>
-                    <span>Client Permis</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- Section CTA -->
-<section class="cta-section">
-    <div class="cta-container">
-        <div class="cta-content">
-            <h2>Prêt à concrétiser vos projets?</h2>
-            <p>Notre équipe est à votre disposition pour vous accompagner</p>
-        </div>
-        <div class="cta-buttons">
-            <a href="tel:+228XXXXXXXX" class="btn btn-light">
-                <i class="fas fa-phone-alt"></i>
-                <span>Appelez-nous</span>
-            </a>
-            <a href="{% url 'contact' %}" class="btn btn-outline-light">
-                <i class="fas fa-envelope"></i>
-                <span>Envoyez un message</span>
-            </a>
+    <!-- Division droite - Paragraphe animé avec bouton -->
+    <div class="vision-promo">
+        <div class="animated-paragraph">
+            <h3>Notre engagement va au-delà des FAQ</h3>
+            <p>Nous comprenons que chaque question mérite une réponse claire. Découvrez notre philosophie et comment nous construisons une expérience plus complète pour vous.</p>
+            <a href="/about" class="vision-btn">Comprendre notre vision</a>
         </div>
     </div>
-</section>
+</div>
+
+<script>
+    // Initialisation des animations
+    document.addEventListener('DOMContentLoaded', function() {
+        // Effet de parallaxe sur le hero
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.pageYOffset;
+            const hero = document.querySelector('.hero-section');
+            hero.style.backgroundPositionY = scrollPosition * 0.5 + 'px';
+        });
+        
+        // Animation au scroll
+        gsap.utils.toArray(".wow-section").forEach((section, i) => {
+            gsap.from(section, {
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                delay: i * 0.1,
+                ease: "power3.out"
+            });
+        });
+    });
+
+
+
+    // Script FAQ - À intégrer à la fin de votre fichier
+    document.addEventListener('DOMContentLoaded', function() {
+        const faqCards = document.querySelectorAll('.odz-faq-card');
+        
+        faqCards.forEach(card => {
+            card.addEventListener('click', function() {
+                this.classList.toggle('active');
+                
+                // Fermer les autres cartes
+                faqCards.forEach(otherCard => {
+                    if (otherCard !== card) {
+                        otherCard.classList.remove('active');
+                    }
+                });
+            });
+        });
+    });
+</script>
 {% endblock %}

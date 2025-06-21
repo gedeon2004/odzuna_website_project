@@ -1,0 +1,434 @@
+{% extends 'base.html' %}
+
+{% block title %}Pièces détachées - Odzuna{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --primary-blue: #1a73e8;
+        --neon-blue: #0ff0fc;
+        --dark-bg: #0f0f1a;
+        --orange-accent: #ff6f00;
+    }
+    
+    .piece-hero {
+        background: linear-gradient(135deg, #000428, #004e92);
+        color: white;
+        padding: 5rem 1rem;
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .piece-hero h1 {
+        font-size: 2.8rem;
+        margin-bottom: 1rem;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .piece-hero p {
+        font-size: 1.2rem;
+        max-width: 800px;
+        margin: 0 auto;
+        opacity: 0.9;
+    }
+    
+    .piece-filters-container {
+        max-width: 1200px;
+        margin: -50px auto 3rem;
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        position: relative;
+    }
+    
+    .piece-filters {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .filter-group {
+        margin-bottom: 0;
+    }
+    
+    .filter-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .filter-control {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .filter-control:focus {
+        border-color: var(--primary-blue);
+        box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+    }
+    
+    .filter-btn {
+        background: linear-gradient(90deg, var(--primary-blue), #0d47a1);
+        color: white;
+        border: none;
+        padding: 0.8rem;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        align-self: flex-end;
+    }
+    
+    .filter-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(26, 115, 232, 0.2);
+    }
+    
+    .reset-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #666;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        align-self: flex-end;
+    }
+    
+    .reset-link:hover {
+        color: var(--primary-blue);
+    }
+    
+    .piece-grid-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+    
+    .piece-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .piece-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        position: relative;
+    }
+    
+    .piece-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+    
+    .piece-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: var(--orange-accent);
+        color: white;
+        padding: 0.3rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        z-index: 2;
+    }
+    
+    .piece-image-container {
+        height: 200px;
+        background: #f5f7fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    }
+    
+    .piece-image {
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: contain;
+        transition: transform 0.5s ease;
+    }
+    
+    .piece-card:hover .piece-image {
+        transform: scale(1.05);
+    }
+    
+    .piece-content {
+        padding: 1.5rem;
+    }
+    
+    .piece-title {
+        font-size: 1.4rem;
+        margin: 0 0 0.5rem;
+        color: #333;
+    }
+    
+    .piece-ref {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 0.5rem;
+    }
+    
+    .piece-price {
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: var(--orange-accent);
+        margin: 1rem 0;
+    }
+    
+    .piece-stock {
+        display: inline-block;
+        padding: 0.3rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+    
+    .in-stock {
+        background: #e0ffe0;
+        color: #008000;
+    }
+    
+    .out-of-stock {
+        background: #ffe0e0;
+        color: #a10000;
+    }
+    
+    .compat-title {
+        font-size: 1rem;
+        margin: 1rem 0 0.5rem;
+        color: #444;
+    }
+    
+    .compat-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    
+    .compat-item {
+        display: inline-block;
+        background: #f0f4f8;
+        color: #333;
+        padding: 0.3rem 0.8rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .piece-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+    
+    .details-btn {
+        flex: 1;
+        padding: 0.8rem;
+        background: var(--primary-blue);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+        text-decoration: none;
+    }
+    
+    .details-btn:hover {
+        background: #0c5dc7;
+        transform: translateY(-2px);
+    }
+    
+    .cart-btn {
+        width: 45px;
+        height: 45px;
+        background: #f5f5f5;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .cart-btn:hover {
+        background: #e0f0ff;
+        color: var(--primary-blue);
+        transform: translateY(-2px);
+    }
+    
+    .no-result {
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        margin: 2rem auto;
+        max-width: 600px;
+    }
+    
+    .no-result-icon {
+        font-size: 3rem;
+        color: #ccc;
+        margin-bottom: 1rem;
+    }
+    
+    @media (max-width: 768px) {
+        .piece-hero h1 {
+            font-size: 2rem;
+        }
+        
+        .piece-filters {
+            grid-template-columns: 1fr;
+        }
+        
+        .piece-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<section class="piece-hero">
+    <h1>Pièces Détachées d'Excellence</h1>
+    <p>Trouvez les pièces authentiques pour l'entretien optimal de votre véhicule</p>
+</section>
+
+<div class="piece-filters-container">
+    <form method="get" class="piece-filters">
+        <div class="filter-group">
+            <label for="search">Recherche</label>
+            <input type="text" id="search" name="q" value="{{ search_query }}" placeholder="Référence, nom..." class="filter-control">
+        </div>
+        
+        <div class="filter-group">
+            <label for="vehicule">Véhicule</label>
+            <select id="vehicule" name="vehicule" class="filter-control">
+                <option value="">Tous véhicules</option>
+                {% for v in vehicules %}
+                    <option value="{{ v.id }}" {% if vehicule_id == v.id|stringformat:"s" %}selected{% endif %}>
+                        {{ v.marque }} {{ v.modele }} ({{ v.annee }})
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label for="stock">Disponibilité</label>
+            <select id="stock" name="stock" class="filter-control">
+                <option value="">Toutes</option>
+                <option value="1" {% if stock_filter == '1' %}selected{% endif %}>En stock</option>
+                <option value="0" {% if stock_filter == '0' %}selected{% endif %}>Sur commande</option>
+            </select>
+        </div>
+        
+        <button type="submit" class="filter-btn">Filtrer</button>
+        <a href="{% url 'services:pieces' %}" class="reset-link">
+            <i class="fas fa-redo"></i> Réinitialiser
+        </a>
+    </form>
+</div>
+
+<div class="piece-grid-container">
+    {% if pieces %}
+    <div class="piece-grid">
+        {% for piece in pieces %}
+        <div class="piece-card">
+            {% if piece.stock > 10 %}
+                <span class="piece-badge">Disponible</span>
+            {% elif piece.stock > 0 %}
+                <span class="piece-badge">Stock limité</span>
+            {% else %}
+                <span class="piece-badge">Sur commande</span>
+            {% endif %}
+            
+            <div class="piece-image-container">
+                {% if piece.image %}
+                    <img src="{{ piece.image.url }}" alt="{{ piece.nom }}" class="piece-image">
+                {% else %}
+                    <i class="fas fa-car-part" style="font-size: 3rem; color: #ccc;"></i>
+                {% endif %}
+            </div>
+            
+            <div class="piece-content">
+                <h3 class="piece-title">{{ piece.nom }}</h3>
+                <p class="piece-ref">Réf: {{ piece.reference }}</p>
+                <div class="piece-price">{{ piece.prix|floatformat:0 }} FCFA</div>
+                
+                <span class="piece-stock {% if piece.stock > 0 %}in-stock{% else %}out-of-stock{% endif %}">
+                    {% if piece.stock > 0 %}
+                        {{ piece.stock }} en stock
+                    {% else %}
+                        Disponible sous 7 jours
+                    {% endif %}
+                </span>
+                
+                <p class="compat-title">Compatible avec :</p>
+                <ul class="compat-list">
+                    {% for v in piece.compatible_avec.all %}
+                        <li class="compat-item">{{ v.marque }} {{ v.modele }}</li>
+                    {% empty %}
+                        <li class="compat-item">Tous modèles</li>
+                    {% endfor %}
+                </ul>
+                
+                <div class="piece-actions">
+                    <a href="{% url 'services:piece_detail' piece.id %}" class="details-btn">
+                        <i class="fas fa-info-circle"></i> Détails
+                    </a>
+                    <button class="cart-btn" onclick="addToCart({{ piece.id }})">
+                        <i class="fas fa-cart-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="no-result">
+        <div class="no-result-icon">
+            <i class="fas fa-search"></i>
+        </div>
+        <h3>Aucune pièce trouvée</h3>
+        <p>Essayez de modifier vos critères de recherche ou <a href="{% url 'services:pieces' %}">réinitialisez les filtres</a></p>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    function addToCart(pieceId) {
+        // À implémenter avec votre logique de panier
+        alert('Pièce ' + pieceId + ' ajoutée au panier');
+    }
+    
+    // Animation des cartes
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.piece-card');
+        cards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.5s ease ' + (index * 0.1) + 's';
+            
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    });
+</script>
+{% endblock %}
