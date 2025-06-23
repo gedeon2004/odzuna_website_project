@@ -1,0 +1,461 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Aide à l'Emploi Premium | ODZUNA{% endblock %}
+
+{% block content %}
+<style>
+    /* ANIMATIONS PREMIUM */
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-15px); }
+    }
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.05); opacity: 0.9; }
+    }
+    @keyframes gradientFlow {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    @keyframes shine {
+        to { background-position: 200% center; }
+    }
+
+    /* STYLES ULTRA PREMIUM */
+    .emploi-section {
+        padding: 6rem 1rem;
+        background: linear-gradient(135deg, #f8faff 0%, #f0f7ff 100%);
+        font-family: 'Poppins', sans-serif;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .emploi-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 8px;
+        background: linear-gradient(90deg, #1a73e8, #ff6f00, #00bcd4, #1a73e8);
+        background-size: 300% 100%;
+        animation: gradientFlow 8s ease infinite;
+    }
+    
+    .section-title {
+        text-align: center;
+        color: #0f0c29;
+        margin-bottom: 4rem;
+        font-size: 2.8rem;
+        font-weight: 800;
+        position: relative;
+        display: inline-block;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 4px;
+        background: linear-gradient(to right, #1a73e8, #ff6f00);
+    }
+    
+    .emploi-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2.5rem;
+        max-width: 1200px;
+        margin: 0 auto 6rem;
+        padding: 0 2rem;
+    }
+    
+    .emploi-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 15px 40px rgba(26, 115, 232, 0.1);
+        padding: 2.5rem;
+        text-align: center;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(26, 115, 232, 0.15);
+        backdrop-filter: blur(5px);
+        z-index: 1;
+    }
+    
+    .emploi-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(26, 115, 232, 0.08) 0%, transparent 70%);
+        animation: rotate 15s linear infinite;
+        z-index: -1;
+    }
+    
+    .emploi-card:hover {
+        transform: translateY(-10px) scale(1.03);
+        box-shadow: 0 25px 60px rgba(26, 115, 232, 0.15);
+    }
+    
+    .emploi-card i {
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+        display: inline-block;
+        background: linear-gradient(135deg, #1a73e8 0%, #00bcd4 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: float 4s ease-in-out infinite;
+    }
+    
+    .emploi-card h3 {
+        color: #0f0c29;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+        position: relative;
+    }
+    
+    .emploi-card p {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #555;
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+    
+    .emploi-card .card-btn {
+        display: inline-block;
+        padding: 0.8rem 2rem;
+        background: linear-gradient(to right, #1a73e8, #00bcd4);
+        color: white;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        box-shadow: 0 5px 20px rgba(26, 115, 232, 0.3);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .emploi-card .card-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: 0.5s;
+    }
+    
+    .emploi-card .card-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(26, 115, 232, 0.4);
+    }
+    
+    .emploi-card .card-btn:hover::before {
+        left: 100%;
+    }
+    
+    /* FORM SECTION PREMIUM */
+    .form-section {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 3rem;
+        border-radius: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+        box-shadow: 0 20px 50px rgba(26, 115, 232, 0.1);
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(26, 115, 232, 0.1);
+        backdrop-filter: blur(5px);
+        z-index: 1;
+    }
+    
+    .form-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 8px;
+        background: linear-gradient(90deg, #1a73e8, #ff6f00, #00bcd4);
+        background-size: 200% auto;
+    }
+    
+    .form-section h2 {
+        text-align: center;
+        color: #0f0c29;
+        margin-bottom: 2rem;
+        font-size: 2rem;
+        font-weight: 700;
+    }
+    
+    .form-section form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .form-group {
+        position: relative;
+    }
+    
+    .form-section input,
+    .form-section textarea,
+    .form-section select {
+        padding: 1rem;
+        border: 1px solid rgba(26, 115, 232, 0.2);
+        border-radius: 10px;
+        font-size: 1rem;
+        width: 100%;
+        resize: vertical;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.8);
+    }
+    
+    .form-section input:focus,
+    .form-section textarea:focus,
+    .form-section select:focus {
+        outline: none;
+        border-color: #1a73e8;
+        box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+    }
+    
+    .form-section label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #333;
+    }
+    
+    .submit-btn {
+        padding: 1rem 2rem;
+        background: linear-gradient(to right, #1a73e8, #00bcd4);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 20px rgba(26, 115, 232, 0.3);
+        position: relative;
+        overflow: hidden;
+        margin-top: 1rem;
+    }
+    
+    .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(26, 115, 232, 0.4);
+        background: linear-gradient(to right, #0f5dd0, #00a3c4);
+    }
+    
+    .submit-btn::after {
+        content: '→';
+        position: absolute;
+        right: 1.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+    
+    .submit-btn:hover::after {
+        opacity: 1;
+        right: 1rem;
+    }
+    
+    /* MESSAGES STYLES */
+    .messages {
+        max-width: 100%;
+        margin: 0 auto 2rem;
+    }
+    
+    .message {
+        padding: 1rem;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+        position: relative;
+        overflow: hidden;
+        border-left: 4px solid;
+    }
+    
+    .message.success {
+        background-color: rgba(46, 125, 50, 0.1);
+        border-color: #2e7d32;
+        color: #2e7d32;
+    }
+    
+    /* DECORATIVE ELEMENTS */
+    .floating-element {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0.1;
+        z-index: 0;
+    }
+    
+    .floating-element-1 {
+        width: 200px;
+        height: 200px;
+        background: #1a73e8;
+        top: 10%;
+        left: 5%;
+        animation: float 8s ease-in-out infinite;
+    }
+    
+    .floating-element-2 {
+        width: 150px;
+        height: 150px;
+        background: #ff6f00;
+        bottom: 15%;
+        right: 8%;
+        animation: float 10s ease-in-out infinite 2s;
+    }
+    
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 768px) {
+        .emploi-section {
+            padding: 4rem 1rem;
+        }
+        
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .emploi-grid {
+            grid-template-columns: 1fr;
+            padding: 0 1rem;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .form-section {
+            padding: 2rem;
+        }
+    }
+</style>
+
+<!-- SECTION HERO EMPLOI -->
+<section class="emploi-section">
+    <!-- Floating decorative elements -->
+    <div class="floating-element floating-element-1"></div>
+    <div class="floating-element floating-element-2"></div>
+    
+    <h2 class="section-title animate__animated animate__fadeIn">NOTRE ACCOMPAGNEMENT EMPLOI</h2>
+
+    <div class="emploi-grid">
+        {% for service in services %}
+        <div class="emploi-card wow-section">
+            <i class="{{ service.icone }}"></i>
+            <h3>{{ service.titre }}</h3>
+            <p>{{ service.description }}</p>
+            <button class="card-btn">En savoir plus</button>
+            
+            <!-- Animated dot -->
+            <div style="position: absolute; bottom: 20px; right: 20px; width: 10px; height: 10px; background: rgba(26, 115, 232, 0.3); border-radius: 50%; animation: pulse 2s ease infinite;"></div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- FORM SECTION -->
+    <div class="form-section wow-section">
+        <h2>DEMANDEZ VOTRE ACCOMPAGNEMENT PERSONNALISÉ</h2>
+
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="message success">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="id_nom">Nom complet</label>
+                <input type="text" name="nom" id="id_nom" required placeholder="Votre nom complet">
+            </div>
+            
+            <div class="form-group">
+                <label for="id_email">Email</label>
+                <input type="email" name="email" id="id_email" required placeholder="Votre email professionnel">
+            </div>
+            
+            <div class="form-group">
+                <label for="id_telephone">Téléphone</label>
+                <input type="tel" name="telephone" id="id_telephone" placeholder="Votre numéro de téléphone">
+            </div>
+            
+            <div class="form-group">
+                <label for="id_service">Service intéressé</label>
+                <select name="service" id="id_service">
+                    <option value="">Sélectionnez un service</option>
+                    {% for service in services %}
+                    <option value="{{ service.id }}">{{ service.titre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="id_message">Votre message</label>
+                <textarea name="message" id="id_message" rows="5" placeholder="Décrivez votre situation et vos besoins"></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">
+                <span>Envoyer ma demande</span>
+            </button>
+        </form>
+    </div>
+</section>
+
+<script>
+    // GSAP Animations
+    document.addEventListener('DOMContentLoaded', function() {
+        // Scroll animations
+        gsap.utils.toArray(".wow-section").forEach((section, i) => {
+            gsap.from(section, {
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                delay: i * 0.1,
+                ease: "power3.out"
+            });
+        });
+        
+        // Form input effects
+        document.querySelectorAll('input, textarea, select').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'translateY(-3px)';
+                this.parentElement.style.boxShadow = '0 5px 15px rgba(26, 115, 232, 0.1)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = '';
+                this.parentElement.style.boxShadow = '';
+            });
+        });
+    });
+</script>
+{% endblock %}

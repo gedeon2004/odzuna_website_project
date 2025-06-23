@@ -10,4 +10,7 @@ urlpatterns = [
     path('pieces/', views.pieces, name='pieces'),
     path('permis/', views.permis, name='permis'),
     path('emploi/', views.emploi, name='emploi'),
+    path('consulaires/', views.consulaires, name='consulaires'),
+    path('emploi/', views.emploi, name='emploi'),
+
 ]

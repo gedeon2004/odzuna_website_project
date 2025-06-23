@@ -6,6 +6,8 @@ from django.http import JsonResponse
 from .models import PieceDetachee
 from .models import LessonAutoEcole
 from core.models import User, Client
+from .forms import DemandeEmploiForm
+from .models import DemandeAideEmploi
 
 def automobiles(request):
     type_filter = request.GET.get('type')
@@ -109,6 +111,93 @@ def permis(request):
 
     return render(request, 'services/permis.html', context)
 
+
+
+def consulaires(request):
+    services = [
+        {
+            'titre': 'Légalisation de documents',
+            'description': 'Authentification de documents officiels pour usage à l’international.',
+            'icone': 'fas fa-stamp'
+        },
+        {
+            'titre': 'Traduction assermentée',
+            'description': 'Traductions officielles acceptées par les ambassades et institutions.',
+            'icone': 'fas fa-language'
+        },
+        {
+            'titre': 'Casier judiciaire',
+            'description': 'Assistance pour obtenir un extrait de casier judiciaire.',
+            'icone': 'fas fa-file-signature'
+        },
+        {
+            'titre': 'Assistance visa',
+            'description': 'Montage de dossiers de visa et conseils personnalisés.',
+            'icone': 'fas fa-passport'
+        },
+        {
+            'titre': 'Lettre d’invitation',
+            'description': 'Rédaction et formalisation des lettres d’invitation officielles.',
+            'icone': 'fas fa-envelope-open-text'
+        },
+        {
+            'titre': 'Attestation d’hébergement',
+            'description': 'Documents nécessaires pour les demandes de visa touristiques.',
+            'icone': 'fas fa-home'
+        },
+    ]
+    return render(request, 'services/consulaires.html', {'services': services})
+
+
+
 def emploi(request):
-    return render(request, 'services/emploi.html')
+    # Bloc des services (grille visuelle)
+    services = [
+        {
+            'titre': 'CV professionnel',
+            'description': 'Rédaction ou mise en forme d’un CV moderne adapté aux standards internationaux.',
+            'icone': 'fas fa-id-badge'
+        },
+        {
+            'titre': 'Lettre de motivation',
+            'description': 'Aide à la rédaction personnalisée en fonction de l’offre ou du secteur.',
+            'icone': 'fas fa-file-alt'
+        },
+        {
+            'titre': 'Orientation emploi',
+            'description': 'Coaching et conseils sur les secteurs porteurs au Togo et à l’étranger.',
+            'icone': 'fas fa-briefcase'
+        },
+        {
+            'titre': 'Préparation entretien',
+            'description': 'Simulations d’entretien pour renforcer la confiance et la clarté.',
+            'icone': 'fas fa-comments'
+        },
+        {
+            'titre': 'Opportunités à l’international',
+            'description': 'Accompagnement sur les procédures de recrutement au Canada, USA, Europe...',
+            'icone': 'fas fa-globe-africa'
+        },
+        {
+            'titre': 'Suivi de dossier',
+            'description': 'Accompagnement complet de votre candidature jusqu’à l’embauche ou la réponse.',
+            'icone': 'fas fa-check-circle'
+        }
+    ]
+
+    # Traitement du formulaire
+    if request.method == 'POST':
+        form = DemandeEmploiForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Votre demande a bien été envoyée. Nous vous contacterons sous peu.")
+            return redirect('aide_emploi')
+    else:
+        form = DemandeEmploiForm()
+
+    # Rendu final
+    return render(request, 'services/emploi.html', {
+        'services': services,
+        'form': form
+    })
 

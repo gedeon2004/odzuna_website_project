@@ -24,8 +24,6 @@ class Vehicule(models.Model):
         return self.modele
 
 
-
-
 def get_absolute_url(self):
     return reverse('services:vehicule_detail', args=[str(self.id)])
 
@@ -34,7 +32,15 @@ class PieceDetachee(models.Model):
     reference = models.CharField(max_length=100)
     prix = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.IntegerField()
-    compatible_avec = models.ManyToManyField(Vehicule, related_name='pieces_compatibles')
+    compatible_avec = models.ManyToManyField('Vehicule', related_name='pieces_compatibles')
+
+    
+    photo = models.ImageField(
+        upload_to='pieces/',
+        blank=True,
+        null=True,
+        verbose_name="Photo de la pièce"
+    )
 
     def __str__(self):
         return self.reference
@@ -53,3 +59,16 @@ class LessonAutoEcole(models.Model):
 
     def __str__(self):
         return f"Leçon de {self.eleve} le {self.date}"
+
+
+class DemandeAideEmploi(models.Model):
+    nom = models.CharField(max_length=100)
+    email = models.EmailField()
+    telephone = models.CharField(max_length=20, blank=True, null=True)
+    domaine = models.CharField(max_length=100)
+    besoin = models.TextField()
+    date_soumission = models.DateTimeField(auto_now_add=True)
+    traite = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.nom} - {self.domaine}"

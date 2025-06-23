@@ -358,11 +358,12 @@
             {% endif %}
             
             <div class="piece-image-container">
-                {% if piece.image %}
-                    <img src="{{ piece.image.url }}" alt="{{ piece.nom }}" class="piece-image">
+                {% if piece.photo %}
+                    <img src="{{ piece.photo.url }}" alt="{{ piece.reference }}" class="piece-image">
                 {% else %}
-                    <i class="fas fa-car-part" style="font-size: 3rem; color: #ccc;"></i>
+                    <i class="fas fa-tools" style="font-size: 3rem; color: #ccc;"></i>
                 {% endif %}
+
             </div>
             
             <div class="piece-content">
