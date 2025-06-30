@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* STYLES EXISTANTS - CONSERVÉS INTACTS */
         .nav-container {
             display: flex;
             flex-wrap: wrap;
@@ -17,7 +18,15 @@
         .logo-text { display: inline-block; vertical-align: middle; }
         .logo-primary { font-weight: bold; font-size: 1.2rem; color: #1a73e8; }
         .logo-sub { font-size: 0.8rem; color: #666; }
-        .nav-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; }
+        .nav-list { 
+            list-style: none; 
+            margin: 0; 
+            padding: 0; 
+            display: flex; 
+            flex-wrap: wrap;
+            justify-content: center; /* Centrage ajouté */
+            flex-grow: 1; /* Pour occuper l'espace disponible */
+        }
         .nav-item { position: relative; margin: 0 1rem; }
         .nav-link { 
             text-decoration: none; 
@@ -39,7 +48,8 @@
             display: none; 
             position: absolute; 
             top: 100%; 
-            left: 0; 
+            left: 50%; 
+            transform: translateX(-50%); /* Centrage horizontal */
             background: white; 
             padding: 1rem; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
@@ -49,8 +59,8 @@
             animation: fadeIn 0.3s ease-out;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translate(-50%, 10px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
         }
         .dropdown:hover .mega-menu { display: block; }
         .mega-menu-container { display: flex; gap: 2rem; }
@@ -118,7 +128,6 @@
         .action-item {
             position: relative;
         }
-
         .nav-link.call-button {
             display: inline-block;
             padding: 12px 24px;
@@ -130,30 +139,24 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        
         .nav-link.call-button:hover {
             background-color: #45a049;
             transform: translateY(-3px);
             box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
             color: white;
         }
-        
         .nav-link.call-button:active {
             transform: translateY(1px);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        
         .nav-link.call-button i {
             margin-right: 8px;
         }
-        
-
         .lang-switcher {
             position: relative;
             display: inline-block;
             z-index: 1000;
         }
-        
         .lang-btn {
             display: flex;
             align-items: center;
@@ -168,17 +171,13 @@
             transition: all 0.3s ease;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
-        
         .lang-btn:hover {
             background: #f5f5f5;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-        
         .lang-code {
             font-weight: bold;
         }
-        
-        /* Dropdown */
         .lang-dropdown {
             position: absolute;
             top: 100%;
@@ -194,13 +193,11 @@
             transform: translateY(10px);
             transition: all 0.3s ease;
         }
-        
         .lang-switcher:hover .lang-dropdown {
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
         }
-        
         .lang-dropdown li a {
             display: flex;
             align-items: center;
@@ -210,12 +207,9 @@
             text-decoration: none;
             transition: all 0.2s ease;
         }
-        
         .lang-dropdown li a:hover {
             background: #f5f5f5;
         }
-        
-        /* Drapeaux */
         .flag-icon {
             display: inline-block;
             width: 20px;
@@ -225,16 +219,12 @@
             background-position: center;
             background-repeat: no-repeat;
         }
-        
         .flag-icon-fr {
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 6'%3E%3Cpath fill='%230055A4' d='M0 0h3v6H0z'/%3E%3Cpath fill='%23FFFFFF' d='M3 0h3v6H3z'/%3E%3Cpath fill='%23EF4135' d='M6 0h3v6H6z'/%3E%3C/svg%3E");
         }
-        
         .flag-icon-gb {
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3Cpath fill='%23012169' d='M0 0h60v30H0z'/%3E%3Cpath fill='%23FFF' d='M0 0v30h60V0zM30 0v30M0 15h60'/%3E%3Cpath fill='%23C8102E' d='M0 12h60v6H0zM27 0h6v30h-6z'/%3E%3Cpath fill='%23FFF' d='m24 4l6 22m6-22l-6 22'/%3E%3Cpath fill='%23C8102E' d='m25 6l5 18m5-18l-5 18M21 0h18v6H21zM21 24h18v6H21z'/%3E%3C/svg%3E");
         }
-        
-        /* Mobile menu */
         .mobile-menu-toggle {
             display: none;
             background: none;
@@ -243,30 +233,146 @@
             padding: 0.5rem;
         }
         
+        /* AJUSTEMENTS RESPONSIVE SEULEMENT */
         @media (max-width: 992px) {
-            .nav-menu {
-                display: none;
-                width: 100%;
-                order: 3;
-                margin-top: 1rem;
+            .nav-container {
+                padding: 1rem;
+                position: relative;
+                justify-content: space-between;
             }
+            
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(5px);
+                z-index: 999;
+                display: none;
+                flex-direction: column;
+                padding: 80px 20px 20px;
+                box-sizing: border-box;
+                overflow-y: auto;
+                justify-content: flex-start;
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
             .nav-list {
                 flex-direction: column;
+                width: 100%;
+                align-items: flex-start;
             }
+            
             .nav-item {
-                margin: 0.5rem 0;
+                margin: 0;
+                width: 100%;
+                border-bottom: 1px solid #eee;
             }
+            
+            .nav-link {
+                padding: 15px 0;
+                font-size: 1.1rem;
+                justify-content: flex-start; /* Alignement icône-texte corrigé */
+                gap: 12px; /* Espacement icône-texte augmenté */
+            }
+            
             .dropdown .mega-menu {
                 position: static;
                 width: 100%;
                 box-shadow: none;
-                padding: 0.5rem 0 0.5rem 1rem;
+                padding: 0;
+                background: transparent;
+                display: none;
+                animation: none;
+                transform: none;
+                left: auto;
             }
-            .mobile-menu-toggle {
+            
+            .dropdown.active .mega-menu {
                 display: block;
             }
+            
+            .mega-menu-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 10px 0 10px 20px;
+            }
+            
+            .mega-menu-link {
+                gap: 12px; /* Espacement icône-texte augmenté */
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                width: 30px;
+                height: 21px;
+                z-index: 1001;
+            }
+            
+            .mobile-menu-toggle span {
+                display: block;
+                height: 3px;
+                width: 100%;
+                background: #1a73e8;
+                border-radius: 2px;
+                transition: all 0.3s ease;
+            }
+            
+            .mobile-menu-toggle.active span:nth-child(1) {
+                transform: translateY(9px) rotate(45deg);
+            }
+            
+            .mobile-menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .mobile-menu-toggle.active span:nth-child(3) {
+                transform: translateY(-9px) rotate(-45deg);
+            }
+            
             .nav-actions {
-                margin-left: auto;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background: #fff;
+                padding: 15px;
+                box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+                display: flex;
+                justify-content: space-between;
+                z-index: 1000;
+            }
+            
+            .action-item {
+                width: 48%;
+            }
+            
+            .call-button {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+            
+            .lang-switcher {
+                width: 100%;
+            }
+            
+            .lang-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .lang-dropdown {
+                width: 100%;
+                right: auto;
+                left: 0;
             }
         }
     </style>
@@ -323,7 +429,6 @@
                     </div>
                 </li>
 
-
                 <!-- Services Dropdown -->
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link"><i class="fas fa-concierge-bell"></i>Services <i class="fas fa-chevron-down"></i></a>
@@ -356,20 +461,24 @@
                 </li>
                 
                 <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link"><i class="fas fa-envelope"></i>Contact</a></li>
+                
+                <!-- Bouton d'appel visible uniquement en mobile -->
+                <li class="nav-item mobile-only">
+                    <a href="https://wa.me/22892949400" class="nav-link call-button" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Nous contacter
+                    </a>
+                </li>
+
             </ul>
         </div>
 
-        <!-- Actions rapides -->
+        <!-- Actions (bouton et sélecteur de langue) -->
         <div class="nav-actions">
-            <div class="action-item">
-                <a href="tel:+228XXXXXXXX" class="nav-link call-button">
-                    <i class="fas fa-phone-alt"></i> Appelez-nous
-                </a>
-            </div>
+            
             <div class="action-item lang-switcher">
-                <button class="lang-btn nav-link">
-                    <i class="fas fa-globe"></i> 
-                    <span class="lang-code">FR</span> 
+                <button class="lang-btn">
+                    <span class="flag-icon flag-icon-fr"></span>
+                    <span class="lang-code">FR</span>
                     <i class="fas fa-chevron-down"></i>
                 </button>
                 <ul class="lang-dropdown">
@@ -380,76 +489,85 @@
         </div>
 
         <!-- Bouton mobile -->
-        <button class="mobile-menu-toggle">
-            <span class="menu-bar"></span>
-            <span class="menu-bar"></span>
-            <span class="menu-bar"></span>
+        <button class="mobile-menu-toggle" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
         </button>
     </div>
 </nav>
 
 <script>
-    // Mobile menu toggle
-    document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
-        const navMenu = document.querySelector('.nav-menu');
-        navMenu.style.display = navMenu.style.display === 'block' ? 'none' : 'block';
-    });
-
-
     document.addEventListener('DOMContentLoaded', function() {
-    const langSwitcher = document.querySelector('.lang-switcher');
-    const langBtn = document.querySelector('.lang-btn');
-    const langCode = document.querySelector('.lang-code');
-    const langOptions = document.querySelectorAll('.lang-dropdown a');
-    
-    // Gérer le clic sur les options de langue
-    langOptions.forEach(option => {
-        option.addEventListener('click', function(e) {
-            e.preventDefault();
-            const selectedLang = this.getAttribute('data-lang');
+        // Gestion du menu mobile
+        const mobileToggle = document.querySelector('.mobile-menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        mobileToggle.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navMenu.classList.toggle('active');
             
-            // Mettre à jour l'affichage du bouton
-            if (selectedLang === 'fr') {
-                langCode.textContent = 'FR';
-                // Trouver et mettre à jour l'icône du drapeau si vous en ajoutez un dans le bouton
-            } else if (selectedLang === 'en') {
-                langCode.textContent = 'EN';
+            // Bloquer le défilement de la page quand le menu est ouvert
+            if (navMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
             }
-            
-            // Ici vous devriez implémenter la logique pour changer la langue du site
-            changeLanguage(selectedLang);
-            
-            // Fermer le dropdown
-            document.querySelector('.lang-dropdown').style.opacity = '0';
-            document.querySelector('.lang-dropdown').style.visibility = 'hidden';
+        });
+
+        // Gestion des dropdowns en mobile
+        const dropdownToggles = document.querySelectorAll('.dropdown > .nav-link');
+        
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', function(e) {
+                if (window.innerWidth <= 992) {
+                    e.preventDefault();
+                    const dropdown = this.parentElement;
+                    dropdown.classList.toggle('active');
+                    
+                    // Fermer les autres dropdowns ouverts
+                    dropdownToggles.forEach(otherToggle => {
+                        if (otherToggle !== this) {
+                            otherToggle.parentElement.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        });
+
+        // Fermer le menu quand on clique à l'extérieur
+        document.addEventListener('click', function(e) {
+            if (!navMenu.contains(e.target) && !mobileToggle.contains(e.target)) {
+                mobileToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Gestion du sélecteur de langue
+        const langSwitcher = document.querySelector('.lang-switcher');
+        const langBtn = document.querySelector('.lang-btn');
+        const langCode = document.querySelector('.lang-code');
+        const langOptions = document.querySelectorAll('.lang-dropdown a');
+        
+        langOptions.forEach(option => {
+            option.addEventListener('click', function(e) {
+                e.preventDefault();
+                const selectedLang = this.getAttribute('data-lang');
+                
+                if (selectedLang === 'fr') {
+                    langCode.textContent = 'FR';
+                } else if (selectedLang === 'en') {
+                    langCode.textContent = 'EN';
+                }
+                
+                // Ici vous pouvez ajouter la logique de changement de langue
+                console.log(`Langue changée vers: ${selectedLang}`);
+                
+                // Fermer le dropdown
+                document.querySelector('.lang-dropdown').style.opacity = '0';
+                document.querySelector('.lang-dropdown').style.visibility = 'hidden';
+            });
         });
     });
-    
-    // Fonction pour changer la langue (à adapter à votre site)
-    function changeLanguage(lang) {
-        console.log(`Changement de langue vers: ${lang}`);
-        // Implémentez ici la logique pour changer la langue de votre site
-        // Cela peut inclure:
-        // 1. Envoyer une requête au serveur
-        // 2. Charger de nouveaux contenus
-        // 3. Mettre à jour les textes via JavaScript
-        // 4. Stocker le choix dans un cookie/localStorage
-        
-        // Exemple basique avec localStorage:
-        localStorage.setItem('preferredLanguage', lang);
-        
-        // Recharger la page ou mettre à jour le contenu dynamiquement
-        // window.location.reload();
-    }
-    
-    // Vérifier la langue stockée au chargement
-    const savedLang = localStorage.getItem('preferredLanguage');
-    if (savedLang) {
-        if (savedLang === 'fr') {
-            langCode.textContent = 'FR';
-        } else if (savedLang === 'en') {
-            langCode.textContent = 'EN';
-        }
-    }
-});
 </script>

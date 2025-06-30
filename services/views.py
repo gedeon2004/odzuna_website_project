@@ -40,6 +40,7 @@ def automobiles(request):
     }
     return render(request, 'services/automobiles.html', context)
 
+
 def ajouter_favori(request, id):
     favoris = request.session.get('favoris', [])
     if str(id) not in favoris:
@@ -49,8 +50,8 @@ def ajouter_favori(request, id):
     else:
         return JsonResponse({'status': 'exists'})
 
-def vehicule_detail(request, id):
-    vehicule = get_object_or_404(Vehicule, id=id)
+def vehicule_detail(request, pk):
+    vehicule = get_object_or_404(Vehicule, pk=pk)
     return render(request, 'services/vehicule_detail.html', {'vehicule': vehicule})
 
 

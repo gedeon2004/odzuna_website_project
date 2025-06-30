@@ -10,22 +10,36 @@ class Vehicule(models.Model):
         ('OCCASION', 'Occasion'),
     ]
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    TRANSMISSION_CHOICES = [
+        ('AUTO', 'Automatique'),
+        ('MANUEL', 'Manuelle'),
+    ]
+
+    CARBURANT_CHOICES = [
+        ('ESSENCE', 'Essence'),
+        ('DIESEL', 'Diesel'),
+        ('ELECTRIQUE', 'Électrique'),
+    ]
+
+    marque = models.CharField(max_length=100, blank=True, null=True)
     modele = models.CharField(max_length=100)
-    prix = models.DecimalField(max_digits=10, decimal_places=2)
-    type = models.CharField(max_length=10, choices=TYPE_CHOICES)
+    annee = models.CharField(max_length=4, default="1999")
+    prix = models.DecimalField(max_digits=12, decimal_places=0)
+    kilometrage = models.PositiveIntegerField(default=0)
+    nb_places = models.PositiveIntegerField(default=0)
+    couleur = models.CharField(max_length=50, blank=True, null=True)
     photo = models.ImageField(upload_to='vehicules/')
+    type = models.CharField(max_length=10, choices=TYPE_CHOICES)
+    carburant = models.CharField(max_length=10, choices=CARBURANT_CHOICES, default='ESSENCE')
+    transmission = models.CharField(max_length=10, choices=TRANSMISSION_CHOICES, default='non-defini')
     disponible = models.BooleanField(default=True)
 
     def get_absolute_url(self):
-        return f"/vehicules/{self.id}/"
+        from django.urls import reverse
+        return reverse("services:detail_vehicule", kwargs={"pk": self.pk})
 
     def __str__(self):
-        return self.modele
-
-
-def get_absolute_url(self):
-    return reverse('services:vehicule_detail', args=[str(self.id)])
+        return f"{self.marque} {self.modele}"
 
 
 class PieceDetachee(models.Model):
