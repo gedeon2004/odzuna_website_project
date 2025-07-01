@@ -9,6 +9,7 @@ from core.models import User, Client
 from .forms import DemandeEmploiForm
 from .models import DemandeAideEmploi
 
+
 def automobiles(request):
     type_filter = request.GET.get('type')
     dispo_filter = request.GET.get('dispo')
@@ -77,6 +78,10 @@ def pieces(request):
     }
 
     return render(request, 'services/pieces.html', context)
+
+def piece_detail(request, pk):
+    piece = get_object_or_404(PieceDetachee, pk=pk)
+    return render(request, 'services/piece_detail.html', {'piece': piece})
 
 
 def permis(request):

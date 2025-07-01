@@ -1,0 +1,566 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ piece.nom }} - Pièces détachées - Odzuna{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --primary-blue: #1a73e8;
+        --neon-blue: #0ff0fc;
+        --dark-bg: #0f0f1a;
+        --orange-accent: #ff6f00;
+    }
+    
+    .piece-detail-container {
+        max-width: 1400px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+    
+    .piece-detail-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    }
+    
+    .piece-detail-header {
+        background: linear-gradient(135deg, #000428, #004e92);
+        color: white;
+        padding: 2rem;
+        text-align: center;
+    }
+    
+    .piece-detail-header h1 {
+        font-size: 2.2rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .piece-detail-header .ref {
+        font-size: 1rem;
+        opacity: 0.9;
+        margin-bottom: 1rem;
+    }
+    
+    .piece-detail-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        padding: 2rem;
+    }
+    
+    .piece-gallery {
+        position: relative;
+    }
+    
+    .main-image {
+        width: 100%;
+        height: 400px;
+        background: #f5f7fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        overflow: hidden;
+    }
+    
+    .main-image img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+    
+    .thumbnail-container {
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .thumbnail {
+        width: 80px;
+        height: 80px;
+        background: #f5f7fa;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+    }
+    
+    .thumbnail:hover, .thumbnail.active {
+        border-color: var(--primary-blue);
+    }
+    
+    .thumbnail img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+    
+    .piece-info {
+        position: relative;
+    }
+    
+    .piece-badge {
+        position: absolute;
+        top: -15px;
+        right: 0;
+        background: var(--orange-accent);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: bold;
+        z-index: 2;
+    }
+    
+    .piece-price {
+        font-size: 2.2rem;
+        font-weight: bold;
+        color: var(--orange-accent);
+        margin: 1rem 0;
+    }
+    
+    .piece-stock {
+        display: inline-block;
+        padding: 0.5rem 1.5rem;
+        border-radius: 20px;
+        font-size: 1rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+    }
+    
+    .in-stock {
+        background: #e0ffe0;
+        color: #008000;
+    }
+    
+    .out-of-stock {
+        background: #ffe0e0;
+        color: #a10000;
+    }
+    
+    .piece-description {
+        margin-bottom: 2rem;
+        line-height: 1.6;
+        color: #444;
+    }
+    
+    .piece-specs {
+        margin-bottom: 2rem;
+    }
+    
+    .specs-title {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .specs-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .spec-item {
+        display: flex;
+        margin-bottom: 0.5rem;
+    }
+    
+    .spec-label {
+        font-weight: 600;
+        color: #666;
+        min-width: 150px;
+    }
+    
+    .spec-value {
+        color: #333;
+    }
+    
+    .compat-title {
+        font-size: 1.2rem;
+        margin: 1.5rem 0 1rem;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .compat-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .compat-item {
+        display: inline-block;
+        background: #f0f4f8;
+        color: #333;
+        padding: 0.5rem 1rem;
+        border-radius: 15px;
+        font-size: 0.9rem;
+    }
+    
+    .piece-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+    
+    .add-to-cart {
+        flex: 1;
+        padding: 1rem;
+        background: var(--primary-blue);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.8rem;
+    }
+    
+    .add-to-cart:hover {
+        background: #0c5dc7;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(26, 115, 232, 0.2);
+    }
+    
+    .wishlist-btn {
+        width: 60px;
+        background: #f5f5f5;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .wishlist-btn:hover {
+        background: #ffe0e0;
+        color: #ff0000;
+    }
+    
+    .related-pieces {
+        margin-top: 4rem;
+    }
+    
+    .related-title {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+        color: #333;
+        text-align: center;
+    }
+    
+    .related-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 2rem;
+    }
+    
+    .related-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .related-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+    
+    .related-image {
+        height: 180px;
+        background: #f5f7fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    }
+    
+    .related-image img {
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: contain;
+    }
+    
+    .related-content {
+        padding: 1.5rem;
+    }
+    
+    .related-name {
+        font-size: 1.2rem;
+        margin: 0 0 0.5rem;
+        color: #333;
+    }
+    
+    .related-price {
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: var(--orange-accent);
+        margin: 1rem 0;
+    }
+    
+    .related-link {
+        display: block;
+        text-align: center;
+        padding: 0.8rem;
+        background: var(--primary-blue);
+        color: white;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .related-link:hover {
+        background: #0c5dc7;
+    }
+    
+    @media (max-width: 992px) {
+        .piece-detail-content {
+            grid-template-columns: 1fr;
+        }
+        
+        .main-image {
+            height: 300px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .piece-detail-header h1 {
+            font-size: 1.8rem;
+        }
+        
+        .piece-price {
+            font-size: 1.8rem;
+        }
+        
+        .specs-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .piece-actions {
+            flex-direction: column;
+        }
+        
+        .wishlist-btn {
+            width: 100%;
+            height: 50px;
+        }
+    }
+</style>
+
+<div class="piece-detail-container">
+    <div class="piece-detail-card">
+        <div class="piece-detail-header">
+            <h1>{{ piece.nom }}</h1>
+            <div class="ref">Référence: {{ piece.reference }}</div>
+        </div>
+        
+        <div class="piece-detail-content">
+            <div class="piece-gallery">
+                <div class="main-image">
+                    {% if piece.photo %}
+                        <img src="{{ piece.photo.url }}" alt="{{ piece.nom }}" id="mainImage">
+                    {% else %}
+                        <i class="fas fa-tools" style="font-size: 4rem; color: #ccc;"></i>
+                    {% endif %}
+                </div>
+                
+                {% if piece.photo2 or piece.photo3 %}
+                <div class="thumbnail-container">
+                    {% if piece.photo %}
+                    <div class="thumbnail active" onclick="changeImage('{{ piece.photo.url }}')">
+                        <img src="{{ piece.photo.url }}" alt="Vue 1">
+                    </div>
+                    {% endif %}
+                    
+                    {% if piece.photo2 %}
+                    <div class="thumbnail" onclick="changeImage('{{ piece.photo2.url }}')">
+                        <img src="{{ piece.photo2.url }}" alt="Vue 2">
+                    </div>
+                    {% endif %}
+                    
+                    {% if piece.photo3 %}
+                    <div class="thumbnail" onclick="changeImage('{{ piece.photo3.url }}')">
+                        <img src="{{ piece.photo3.url }}" alt="Vue 3">
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="piece-info">
+                {% if piece.stock > 10 %}
+                    <span class="piece-badge">Disponible</span>
+                {% elif piece.stock > 0 %}
+                    <span class="piece-badge">Stock limité</span>
+                {% else %}
+                    <span class="piece-badge">Sur commande</span>
+                {% endif %}
+                
+                <div class="piece-price">{{ piece.prix|floatformat:0 }} FCFA</div>
+                
+                <span class="piece-stock {% if piece.stock > 0 %}in-stock{% else %}out-of-stock{% endif %}">
+                    {% if piece.stock > 0 %}
+                        {{ piece.stock }} unités en stock
+                    {% else %}
+                        Disponible sous 7-10 jours
+                    {% endif %}
+                </span>
+                
+                <div class="piece-description">
+                    {{ piece.description|linebreaks }}
+                </div>
+                
+                <div class="piece-specs">
+                    <h3 class="specs-title"><i class="fas fa-list-ul"></i> Caractéristiques</h3>
+                    <div class="specs-grid">
+                        <div class="spec-item">
+                            <span class="spec-label">Marque:</span>
+                            <span class="spec-value">{{ piece.marque }}</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Type:</span>
+                            <span class="spec-value">{{ piece.type_piece }}</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Garantie:</span>
+                            <span class="spec-value">{{ piece.garantie }} mois</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Origine:</span>
+                            <span class="spec-value">{{ piece.origine }}</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Condition:</span>
+                            <span class="spec-value">{{ piece.conditionnement }}</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Poids:</span>
+                            <span class="spec-value">{{ piece.poids }} kg</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="compat-title"><i class="fas fa-car"></i> Compatibilité</h3>
+                <ul class="compat-list">
+                    {% for v in piece.compatible_avec.all %}
+                        <li class="compat-item">{{ v.marque }} {{ v.modele }} ({{ v.annee }})</li>
+                    {% empty %}
+                        <li class="compat-item">Tous modèles</li>
+                    {% endfor %}
+                </ul>
+                
+                <div class="piece-actions">
+                    <button class="add-to-cart" onclick="addToCart({{ piece.id }})">
+                        <i class="fas fa-cart-plus"></i> Ajouter au panier
+                    </button>
+                    <button class="wishlist-btn" onclick="addToWishlist({{ piece.id }})">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% if pieces_similaires %}
+    <div class="related-pieces">
+        <h2 class="related-title">Pièces similaires</h2>
+        <div class="related-grid">
+            {% for piece in pieces_similaires %}
+            <div class="related-card">
+                <div class="related-image">
+                    {% if piece.photo %}
+                        <img src="{{ piece.photo.url }}" alt="{{ piece.nom }}">
+                    {% else %}
+                        <i class="fas fa-tools" style="font-size: 2.5rem; color: #ccc;"></i>
+                    {% endif %}
+                </div>
+                <div class="related-content">
+                    <h3 class="related-name">{{ piece.nom }}</h3>
+                    <div class="related-price">{{ piece.prix|floatformat:0 }} FCFA</div>
+                    <a href="{% url 'services:piece_detail' piece.id %}" class="related-link">
+                        Voir détails
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    function changeImage(src) {
+        document.getElementById('mainImage').src = src;
+        
+        // Mettre à jour les thumbnails actifs
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        thumbnails.forEach(thumb => {
+            thumb.classList.remove('active');
+            if (thumb.querySelector('img').src.includes(src)) {
+                thumb.classList.add('active');
+            }
+        });
+    }
+    
+    function addToCart(pieceId) {
+        // À implémenter avec votre logique de panier
+        alert('Pièce ' + pieceId + ' ajoutée au panier');
+        // Exemple avec fetch:
+        // fetch('/add-to-cart/', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'X-CSRFToken': '{{ csrf_token }}'
+        //     },
+        //     body: JSON.stringify({piece_id: pieceId})
+        // })
+        // .then(response => response.json())
+        // .then(data => {
+        //     if(data.success) {
+        //         alert('Ajouté au panier');
+        //     }
+        // });
+    }
+    
+    function addToWishlist(pieceId) {
+        // À implémenter avec votre logique de wishlist
+        alert('Pièce ' + pieceId + ' ajoutée à votre liste de souhaits');
+    }
+    
+    // Animation de la page
+    document.addEventListener('DOMContentLoaded', function() {
+        const elements = document.querySelectorAll('.piece-detail-header, .piece-gallery, .piece-info');
+        elements.forEach((el, index) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease ' + (index * 0.1) + 's';
+            
+            setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    });
+</script>
+{% endblock %}
