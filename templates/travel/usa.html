@@ -5,7 +5,7 @@
 {% block content %}
 <style>
     :root {
-        --usa-blue: #0052a5;
+        --usa-blue:rgb(13, 13, 121);
         --usa-red: #bf0a30;
         --usa-white: #ffffff;
         --usa-dark: #333333;
@@ -463,7 +463,7 @@
             <p>Nos experts en immigration américaine vous accompagnent à chaque étape pour maximiser vos chances d'obtention de visa.</p>
             <div class="cta-buttons">
                 <a href="{% url 'contact' %}" class="cta-button">Contactez-nous pour un accompagnement</a>
-                <a href="#" class="cta-button red">Procédure via loterie visa (DV Lottery)</a>
+                <a href="{% url 'travel:loterie' %}" class="cta-button red">Procédure via loterie visa (DV Lottery)</a>
             </div>
         </div>
     </section>

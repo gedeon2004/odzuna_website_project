@@ -1,5 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&display=swap');
 :root {
-    --primary-color: #1a73e8;
+    --primary-color:rgb(10, 40, 80);
     --secondary-color: #ff6f00;
     --background-color: #f9f9f9;
     --text-color: #333;
@@ -8,7 +9,7 @@
 }
 
 body {
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Syne', sans-serif;
     margin: 0;
     padding: 0;
     background-color: var(--background-color);
