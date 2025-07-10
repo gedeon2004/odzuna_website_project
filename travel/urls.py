@@ -9,4 +9,5 @@ urlpatterns = [
     path('schengen/', views.schengen, name='schengen'),
     path('usa/', views.usa, name='usa'),
     path('loterie/', views.loterie, name='loterie'),
+    path('reservation/', views.reservation, name='reservation'),
 ]

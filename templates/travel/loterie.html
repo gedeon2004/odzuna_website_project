@@ -1,0 +1,513 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Gagnants DV Lottery | Odzuna Travel{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --usa-blue: #0052a5;
+        --usa-red: #bf0a30;
+        --usa-white: #ffffff;
+        --dark-blue: #0a2351;
+        --accent-gold: #ffd700;
+        --light-gray: #f8fafc;
+        --text-gray: #64748b;
+    }
+
+    /* Hero Section */
+    .winner-hero {
+        background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.85) 100%),
+            url('/static/images/lotorie-usa-bg.jpg') center/cover no-repeat;
+        padding: 5rem 2rem;
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-content {
+        flex: 1;
+        padding-right: 3rem;
+    }
+
+    .hero-images {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        position: relative;
+        min-height: 400px;
+    }
+
+    .statue-container {
+        position: relative;
+        width: 300px;
+        height: 400px;
+    }
+
+    .statue-silhouette {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Statue_of_Liberty%2C_NY.jpg/800px-Statue_of_Liberty%2C_NY.jpg') right bottom/contain no-repeat;
+        opacity: 0.8;
+    }
+
+    .flag-silhouette {
+        position: absolute;
+        left: 0;
+        top: 50px;
+        width: 200px;
+        height: 120px;
+        background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/800px-Flag_of_the_United_States.svg.png') center/contain no-repeat;
+        opacity: 0.8;
+    }
+
+    .hero-badge {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .hero-title {
+        font-size: 2.8rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+        max-width: 600px;
+    }
+
+    .winner-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        margin: 5rem auto;
+        max-width: 1200px;
+        display: flex;
+        overflow: hidden;
+    }
+
+    .winner-image {
+        flex: 0 0 45%;
+        background: url('https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') center/cover;
+        position: relative;
+    }
+
+    .winner-badge {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: var(--accent-gold);
+        color: var(--dark-blue);
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 0.9rem;
+    }
+
+    .winner-content {
+        flex: 1;
+        padding: 3rem;
+    }
+
+    .winner-content h3 {
+        font-size: 1.8rem;
+        color: var(--dark-blue);
+        margin-bottom: 1rem;
+    }
+
+    .winner-content p {
+        color: var(--text-gray);
+        margin-bottom: 1.5rem;
+        line-height: 1.7;
+    }
+
+    .process-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem 5rem;
+    }
+
+    .section-title {
+        text-align: center;
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--dark-blue);
+        margin: 3rem 0;
+        position: relative;
+    }
+
+    .section-title::after {
+        content: '';
+        display: block;
+        width: 80px;
+        height: 4px;
+        background: var(--accent-gold);
+        margin: 1rem auto 0;
+    }
+
+    .process-steps {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .process-step {
+        display: flex;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+    }
+
+    .step-number {
+        flex: 0 0 80px;
+        background: var(--usa-blue);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        font-weight: 700;
+    }
+
+    .step-content {
+        flex: 1;
+        padding: 2rem;
+    }
+
+    .step-content h3 {
+        font-size: 1.4rem;
+        color: var(--dark-blue);
+        margin-bottom: 1rem;
+    }
+
+    .step-content ul {
+        list-style-type: none;
+        margin: 1rem 0;
+    }
+
+    .step-content ul li {
+        position: relative;
+        padding-left: 1.5rem;
+        margin-bottom: 0.8rem;
+        color: var(--text-gray);
+    }
+
+    .step-content ul li::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.6rem;
+        width: 8px;
+        height: 8px;
+        background: var(--usa-red);
+        border-radius: 50%;
+    }
+
+    .cta-section {
+        position: relative;
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                    url('/static/images/loterie-bg.jpg') center/cover no-repeat;
+        padding: 80px 20px;
+        color: #fff;
+        text-align: center;
+        overflow: hidden;
+        border-radius: 12px;
+    }
+
+    .cta-section::before {
+        content: "";
+        background: url('/static/images/statue-liberty2.jpg') bottom left no-repeat;
+        opacity: 0.2;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 300px;
+        height: 100%;
+        background-size: contain;
+        z-index: 1;
+    }
+
+
+    .cta-container {
+        position: relative;
+        z-index: 2;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .cta-section h2 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .cta-section p {
+        margin-bottom: 2rem;
+        opacity: 0.9;
+    }
+
+    .cta-button {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 16px 40px;
+        background: linear-gradient(135deg, #FF512F 0%, #DD2476 100%);
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.1rem;
+        border-radius: 50px;
+        border: none;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 5px 15px rgba(221, 36, 118, 0.4);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        z-index: 1;
+    }
+
+    .cta-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #DD2476 0%, #FF512F 100%);
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        border-radius: 50px;
+    }
+
+    .cta-button:hover {
+        transform: translateY(-5px) scale(1.03);
+        box-shadow: 0 15px 30px rgba(221, 36, 118, 0.6);
+    }
+
+    .cta-button:hover::before {
+        opacity: 1;
+    }
+
+    .cta-button:active {
+        transform: translateY(2px) scale(0.98);
+    }
+
+    /* Effet "shine" au survol */
+    .cta-button::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -60%;
+        width: 40%;
+        height: 200%;
+        background: rgba(255, 255, 255, 0.2);
+        transform: rotate(30deg);
+        transition: all 0.6s ease;
+    }
+
+    .cta-button:hover::after {
+        left: 120%;
+    }
+
+    /* Animation pulsation pour attirer l'attention */
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(221, 36, 118, 0.7); }
+        70% { box-shadow: 0 0 0 15px rgba(221, 36, 118, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(221, 36, 118, 0); }
+    }
+
+    .cta-button.pulse {
+        animation: pulse 2s infinite;
+    }
+
+    @media (max-width: 992px) {
+        .hero-container {
+            flex-direction: column;
+        }
+
+        .hero-content {
+            padding-right: 0;
+            margin-bottom: 3rem;
+        }
+
+        .winner-card {
+            flex-direction: column;
+        }
+
+        .winner-image {
+            height: 300px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.2rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+        }
+
+        .process-step {
+            flex-direction: column;
+        }
+
+        .step-number {
+            width: 100%;
+            padding: 1rem 0;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="winner-hero">
+    <div class="hero-container">
+        <div class="hero-content">
+            <div class="hero-badge">FÉLICITATIONS !</div>
+            <h1 class="hero-title">Vous avez gagné la DV Lottery 2025</h1>
+            <p class="hero-subtitle">Notre équipe d'experts en immigration américaine vous accompagne jusqu'à l'obtention de votre Green Card</p>
+            <a href="#process" class="cta-button">Découvrir notre accompagnement</a>
+        </div>
+        <div class="hero-images">
+            <div class="statue-container">
+                <div class="flag-silhouette"></div>
+                <div class="statue-silhouette"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Winner Testimonial -->
+<div class="winner-card">
+    <div class="winner-image">
+        <div class="winner-badge">GAGNANT DV-2024</div>
+    </div>
+    <div class="winner-content">
+        <h3>Marie D. - Sélectionnée pour la DV Lottery 2024</h3>
+        <p>"Après avoir gagné la loterie, j'ai choisi Odzuna Travel pour m'accompagner dans les démarches. Leur expertise a été précieuse pour préparer mon dossier, réussir l'entretien et finaliser toutes les formalités. Aujourd'hui, je vis à Chicago avec ma famille."</p>
+        <p>Comme Marie, confiez-nous la gestion complète de votre processus d'immigration. Nos consultants agréés connaissent parfaitement les exigences du Department of State et vous guident à chaque étape.</p>
+    </div>
+</div>
+
+<!-- Process Section -->
+<div class="process-container" id="process">
+    <h2 class="section-title">Notre Accompagnement Complet</h2>
+    
+    <div class="process-steps">
+        <!-- Step 1 -->
+        <div class="process-step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h3>Vérification initiale et préparation du dossier</h3>
+                <ul>
+                    <li>Analyse approfondie de votre notification de sélection (DS-260)</li>
+                    <li>Vérification de l'éligibilité et des documents requis</li>
+                    <li>Assistance pour l'obtention des actes de naissance, casiers judiciaires et autres documents officiels</li>
+                    <li>Traduction certifiée des documents si nécessaire</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Step 2 -->
+        <div class="process-step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h3>Préparation à l'entretien au consulat</h3>
+                <ul>
+                    <li>Remplissage et optimisation du formulaire DS-260</li>
+                    <li>Simulation d'entretien avec nos consultants spécialisés</li>
+                    <li>Checklist complète des documents à apporter le jour de l'entretien</li>
+                    <li>Conseils sur les questions fréquemment posées et les réponses appropriées</li>
+                    <li>Assistance pour le paiement des frais de visa</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Step 3 -->
+        <div class="process-step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h3>Examen médical et formalités post-entretien</h3>
+                <ul>
+                    <li>Coordination avec les centres médicaux agréés par l'ambassade</li>
+                    <li>Vérification des résultats médicaux avant soumission</li>
+                    <li>Suivi du traitement de votre dossier après l'entretien</li>
+                    <li>Assistance pour les demandes de visa supplémentaires pour les membres de la famille</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Step 4 -->
+        <div class="process-step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <h3>Préparation au départ et installation aux États-Unis</h3>
+                <ul>
+                    <li>Conseils sur les formalités à accomplir avant le départ</li>
+                    <li>Assistance pour l'obtention du passeport avec visa</li>
+                    <li>Recommandations pour l'installation (logement, banque, assurance, etc.)</li>
+                    <li>Obtention du numéro de sécurité sociale et de la Green Card physique</li>
+                    <li>Support continu pendant les premiers mois aux États-Unis</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="cta-container">
+        <h2>Prêt à commencer votre nouvelle vie aux États-Unis ?</h2>
+        <p>Notre équipe d'experts en immigration américaine est à votre disposition pour vous guider à travers chaque étape du processus.</p>
+        <a href="{% url 'contact' %}" class="cta-button">Contactez-nous dès maintenant</a>
+    </div>
+</section>
+
+<script>
+    // Animation for process steps
+    document.addEventListener('DOMContentLoaded', function() {
+        const steps = document.querySelectorAll('.process-step');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        steps.forEach((step, index) => {
+            step.style.opacity = '0';
+            step.style.transform = 'translateY(30px)';
+            step.style.transition = `all 0.6s ease ${index * 0.1}s`;
+            observer.observe(step);
+        });
+    });
+</script>
+{% endblock %}

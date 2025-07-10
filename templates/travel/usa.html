@@ -1,0 +1,511 @@
+{% extends 'base.html' %}
+
+{% block title %}États-Unis - Odzuna{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --usa-blue: #0052a5;
+        --usa-red: #bf0a30;
+        --usa-white: #ffffff;
+        --usa-dark: #333333;
+        --accent-gold: #ffd700;
+    }
+    
+    .usa-hero {
+        position: relative;
+        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+              url('/static/images/statue-usa-bg.jpg') center/cover no-repeat;
+        background-size: cover;
+        background-position: center;
+        padding: 8rem 1rem;
+        text-align: center;
+        color: white;
+        overflow: hidden;
+        min-height: 500px;
+    }
+    
+    .usa-hero h1 {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        position: relative;
+    }
+    
+    .usa-hero h1::after {
+        content: '';
+        display: block;
+        width: 100px;
+        height: 4px;
+        background: var(--usa-red);
+        margin: 1rem auto;
+    }
+    
+    .usa-hero p {
+        font-size: 1.5rem;
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+    }
+    
+    .star {
+        position: absolute;
+        font-size: 30px;
+        color: rgba(255, 255, 255, 0.5);
+        animation: twinkle 3s linear infinite;
+    }
+    
+    .visa-container {
+        max-width: 1200px;
+        margin: 3rem auto;
+        padding: 0 1rem;
+    }
+    
+    .visa-intro {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .visa-intro h2 {
+        font-size: 2.5rem;
+        color: var(--usa-blue);
+        margin-bottom: 1rem;
+    }
+    
+    .visa-intro p {
+        font-size: 1.2rem;
+        color: var(--usa-dark);
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .visa-types {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-bottom: 4rem;
+    }
+    
+    .visa-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-top: 5px solid var(--usa-blue);
+    }
+    
+    .visa-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .visa-header {
+        background: var(--usa-blue);
+        color: white;
+        padding: 1.5rem;
+        text-align: center;
+    }
+    
+    .visa-header h3 {
+        font-size: 1.8rem;
+        margin: 0;
+    }
+    
+    .visa-body {
+        padding: 2rem;
+    }
+    
+    .visa-body p {
+        color: var(--usa-dark);
+        margin-bottom: 1.5rem;
+    }
+    
+    .requirements-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .requirements-list li {
+        padding: 0.8rem 0;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        align-items: center;
+    }
+    
+    .requirements-list li:last-child {
+        border-bottom: none;
+    }
+    
+    .requirements-list li::before {
+        content: '★';
+        color: var(--usa-red);
+        font-weight: bold;
+        margin-right: 1rem;
+        font-size: 1.2rem;
+    }
+    
+    .cta-section {
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+        position: relative;
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                    url('/static/images/usa-bg.jpg') center/cover no-repeat;
+        padding: 100px 5vw;
+        color: #fff;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    .cta-section::before {
+        content: "";
+        background: url('/static/images/statue-liberty2.jpg') bottom left no-repeat;
+        opacity: 0.15;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 350px;
+        height: 100%;
+        background-size: contain;
+        z-index: 0;
+    }
+
+    .cta-container {
+        position: relative;
+        z-index: 2;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .cta-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+
+    .cta-section p {
+        font-size: 1.2rem;
+        margin-bottom: 40px;
+        line-height: 1.6;
+    }
+
+    .cta-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .cta-button {
+        display: inline-block;
+        padding: 14px 30px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        background-color: rgba(26, 115, 232, 0.2); /* semi-transparent blue */
+        color: #fff;
+        font-weight: bold;
+        border-radius: 10px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(4px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .cta-button:hover {
+        background-color: rgba(26, 115, 232, 0.4);
+        border-color: #fff;
+        transform: scale(1.05);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .cta-button.red {
+        background-color: rgba(230, 57, 70, 0.2);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .cta-button.red:hover {
+        background-color: rgba(230, 57, 70, 0.4);
+        border-color: #fff;
+        transform: scale(1.05);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+
+    @media (max-width: 768px) {
+        .cta-section h2 {
+            font-size: 2rem;
+        }
+
+        .cta-section p {
+            font-size: 1rem;
+        }
+
+        .cta-button {
+            width: 100%;
+            text-align: center;
+        }
+
+        .cta-buttons {
+            flex-direction: column;
+        }
+    }
+
+    
+    .process-section {
+        max-width: 800px;
+        margin: 0 auto 4rem;
+    }
+    
+    .process-section h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        color: var(--usa-blue);
+        margin-bottom: 2rem;
+    }
+    
+    .process-steps {
+        counter-reset: step-counter;
+    }
+    
+    .process-step {
+        position: relative;
+        padding-left: 80px;
+        margin-bottom: 2rem;
+    }
+    
+    .process-step::before {
+        counter-increment: step-counter;
+        content: counter(step-counter);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 60px;
+        height: 60px;
+        background: var(--usa-blue);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        font-weight: bold;
+    }
+    
+    .process-step h3 {
+        font-size: 1.5rem;
+        color: var(--usa-red);
+        margin-bottom: 0.5rem;
+    }
+    
+    .process-step p {
+        color: var(--usa-dark);
+        margin: 0;
+    }
+    
+    @keyframes twinkle {
+        0% { opacity: 0.3; transform: scale(0.8); }
+        50% { opacity: 1; transform: scale(1); }
+        100% { opacity: 0.3; transform: scale(0.8); }
+    }
+    
+    @media (max-width: 768px) {
+        .usa-hero h1 {
+            font-size: 2.5rem;
+        }
+        
+        .usa-hero p {
+            font-size: 1.2rem;
+        }
+        
+        .visa-types {
+            grid-template-columns: 1fr;
+        }
+        
+        .process-step {
+            padding-left: 60px;
+        }
+        
+        .process-step::before {
+            width: 40px;
+            height: 40px;
+            font-size: 1.2rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .cta-button {
+            margin: 0.5rem 0;
+        }
+    }
+</style>
+
+<div class="usa-hero">
+    <h1>🇺🇸 Visa pour les États-Unis</h1>
+    <p>Votre guide complet pour les procédures de visa américain (hors loterie)</p>
+    <div class="star" style="top: 20%; left: 10%;">★</div>
+    <div class="star" style="top: 60%; right: 15%; animation-delay: 0.5s;">★</div>
+    <div class="star" style="bottom: 10%; left: 25%; animation-delay: 1s;">★</div>
+    <div class="star" style="top: 30%; right: 20%; animation-delay: 1.5s;">★</div>
+    <div class="star" style="bottom: 20%; right: 10%; animation-delay: 2s;">★</div>
+</div>
+
+<div class="visa-container">
+    <div class="visa-intro">
+        <h2>Types de Visa Américain (Non-Immigrant)</h2>
+        <p>Les États-Unis offrent plusieurs catégories de visa selon votre situation. Voici les principales options disponibles :</p>
+    </div>
+    
+    <div class="visa-types">
+        <!-- Visa Touriste/Affaires -->
+        <div class="visa-card">
+            <div class="visa-header">
+                <h3>🌉 Visa B1/B2</h3>
+            </div>
+            <div class="visa-body">
+                <p>Pour les voyages touristiques, les affaires ou les visites médicales aux États-Unis.</p>
+                <ul class="requirements-list">
+                    <li>Passeport valide (6 mois après le retour)</li>
+                    <li>Formulaire DS-160 rempli</li>
+                    <li>Photo conforme aux normes US</li>
+                    <li>Preuve de liens solides avec votre pays</li>
+                    <li>Relevés bancaires des 3 derniers mois</li>
+                    <li>Itinéraire de voyage détaillé</li>
+                    <li>Preuve d'hébergement ou réservation hôtel</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Visa Étudiant -->
+        <div class="visa-card">
+            <div class="visa-header">
+                <h3>🎓 Visa F/M</h3>
+            </div>
+            <div class="visa-body">
+                <p>Pour les étudiants souhaitant poursuivre leurs études aux États-Unis.</p>
+                <ul class="requirements-list">
+                    <li>Formulaire I-20 de l'école/université</li>
+                    <li>Preuve de paiement des frais SEVIS</li>
+                    <li>Preuve de fonds suffisants pour les études</li>
+                    <li>Résultats académiques antérieurs</li>
+                    <li>Test d'anglais (TOEFL/IELTS si nécessaire)</li>
+                    <li>Preuve d'intention de retour après études</li>
+                    <li>Formulaire DS-160 rempli</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Visa Travail -->
+        <div class="visa-card">
+            <div class="visa-header">
+                <h3>💼 Visa H/L</h3>
+            </div>
+            <div class="visa-body">
+                <p>Pour les professionnels ayant une offre d'emploi aux États-Unis.</p>
+                <ul class="requirements-list">
+                    <li>Pétition approuvée (Formulaire I-129)</li>
+                    <li>Preuve de qualifications professionnelles</li>
+                    <li>Contrat de travail détaillé</li>
+                    <li>Relevés bancaires de l'employeur</li>
+                    <li>Preuve d'expérience professionnelle</li>
+                    <li>Diplômes/certifications requis</li>
+                    <li>Formulaire DS-160 rempli</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="process-section">
+        <h2>Procédure Complète de Demande</h2>
+        <div class="process-steps">
+            <div class="process-step">
+                <h3>Évaluation de l'éligibilité</h3>
+                <p>Analyse de votre profil pour déterminer le type de visa approprié et les chances de succès.</p>
+            </div>
+            
+            <div class="process-step">
+                <h3>Préparation du dossier</h3>
+                <p>Collecte et vérification de tous les documents nécessaires, traduction si nécessaire.</p>
+            </div>
+            
+            <div class="process-step">
+                <h3>Remplissage des formulaires</h3>
+                <p>Assistance pour le remplissage précis des formulaires DS-160 et autres documents requis.</p>
+            </div>
+            
+            <div class="process-step">
+                <h3>Paiement des frais</h3>
+                <p>Guidance pour le paiement des frais de visa MRV et éventuels frais SEVIS.</p>
+            </div>
+            
+            <div class="process-step">
+                <h3>Prise de rendez-vous</h3>
+                <p>Réservation de la date d'entretien au consulat/ambassade des États-Unis.</p>
+            </div>
+            
+            <div class="process-step">
+                <h3>Préparation à l'entretien</h3>
+                <p>Formation et simulation d'entretien pour maximiser vos chances de réussite.</p>
+            </div>
+            
+            <div class="process-step">
+                <h3>Suivi post-entretien</h3>
+                <p>Assistance pour le suivi de votre demande et réception du passeport avec visa.</p>
+            </div>
+        </div>
+    </div>
+    
+    <section class="cta-section">
+        <div class="cta-container">
+            <h2>Prêt à commencer votre processus de visa ?</h2>
+            <p>Nos experts en immigration américaine vous accompagnent à chaque étape pour maximiser vos chances d'obtention de visa.</p>
+            <div class="cta-buttons">
+                <a href="{% url 'contact' %}" class="cta-button">Contactez-nous pour un accompagnement</a>
+                <a href="#" class="cta-button red">Procédure via loterie visa (DV Lottery)</a>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    // Animation des étoiles
+    document.addEventListener('DOMContentLoaded', function() {
+        const stars = document.querySelectorAll('.star');
+        
+        stars.forEach((star, index) => {
+            // Position aléatoire
+            if(index === 0) {
+                star.style.top = '20%';
+                star.style.left = '10%';
+            } else if(index === 1) {
+                star.style.top = '60%';
+                star.style.right = '15%';
+                star.style.left = 'auto';
+            } else if(index === 2) {
+                star.style.bottom = '10%';
+                star.style.left = '25%';
+                star.style.top = 'auto';
+                star.style.right = 'auto';
+            } else if(index === 3) {
+                star.style.top = '30%';
+                star.style.right = '20%';
+                star.style.left = 'auto';
+            } else {
+                star.style.bottom = '20%';
+                star.style.right = '10%';
+                star.style.left = 'auto';
+                star.style.top = 'auto';
+            }
+            
+            // Taille aléatoire
+            const size = Math.random() * 20 + 20;
+            star.style.fontSize = `${size}px`;
+            
+            // Animation delay
+            star.style.animationDelay = `${index * 0.5}s`;
+        });
+    });
+</script>
+{% endblock %}

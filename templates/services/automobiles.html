@@ -93,113 +93,152 @@
         line-height: 1.6;
     }
     
-    /* FILTER SECTION PREMIUM */
+        /* FILTER SECTION PREMIUM REDESIGN */
     .vehicle-filters {
-        background: rgba(255, 255, 255, 0.95);
-        padding: 3rem;
-        border-radius: 20px;
-        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
-        max-width: 1300px;
-        margin: -80px auto 5rem;
+        background: white;
+        padding: 2.5rem;
+        border-radius: 16px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+        max-width: 1200px;
+        margin: -60px auto 4rem;
         position: relative;
         z-index: 10;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        border: 1px solid #f0f0f0;
     }
     
     .filter-header {
         text-align: center;
-        margin-bottom: 3rem;
+        margin-bottom: 2.5rem;
     }
     
     .filter-header h2 {
-        color: var(--dark-bg);
+        color: #1a1a1a;
         margin-bottom: 0.5rem;
-        font-size: 2.5rem;
-        font-weight: 800;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
     }
     
     .filter-header p {
         color: #666;
-        font-size: 1.1rem;
+        font-size: 1rem;
+        font-weight: 500;
     }
     
-    .filter-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 2rem;
+    .filter-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
     }
     
     .filter-group {
-        margin-bottom: 1rem;
+        flex: 1;
+        min-width: 200px;
+    }
+    
+    .input-icon {
         position: relative;
     }
     
-    .filter-group label {
-        display: block;
-        margin-bottom: 0.8rem;
-        font-weight: 600;
-        color: #333;
+    .input-icon i {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #666;
         font-size: 1rem;
     }
     
     .filter-control {
         width: 100%;
-        padding: 1rem;
-        border: 1px solid rgba(26, 115, 232, 0.2);
-        border-radius: 10px;
-        font-size: 1rem;
-        background: rgba(255, 255, 255, 0.8);
+        padding: 12px 16px 12px 42px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        background: white;
         transition: all 0.3s ease;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        height: 48px;
+        appearance: none;
+    }
+    
+    select.filter-control {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        background-size: 16px;
     }
     
     .filter-control:focus {
         outline: none;
-        border-color: var(--primary-blue);
+        border-color: #1a73e8;
         box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
     }
     
+    .filter-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+    
     .filter-btn {
-        background: linear-gradient(135deg, var(--primary-blue), #0d47a1);
-        color: white;
         border: none;
-        padding: 1.2rem;
-        font-size: 1.1rem;
+        padding: 12px 24px;
+        font-size: 1rem;
         font-weight: 600;
-        border-radius: 10px;
+        border-radius: 8px;
         cursor: pointer;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        width: 100%;
-        grid-column: 1 / -1;
-        box-shadow: 0 10px 30px rgba(26, 115, 232, 0.3);
-        position: relative;
-        overflow: hidden;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
     }
     
-    .filter-btn::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-        transition: 0.5s;
+    .primary-btn {
+        background-color: #1a73e8;
+        color: white;
+        box-shadow: 0 4px 12px rgba(26, 115, 232, 0.2);
     }
     
-    .filter-btn:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 40px rgba(26, 115, 232, 0.4);
+    .primary-btn:hover {
+        background-color: #0d5bba;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(26, 115, 232, 0.3);
     }
     
-    .filter-btn:hover::before {
-        left: 100%;
+    .secondary-btn {
+        background-color: white;
+        color: #666;
+        border: 1px solid #e0e0e0;
     }
     
-    .reset-btn {
-        background: linear-gradient(135deg, #666, #333);
+    .secondary-btn:hover {
+        background-color: #f9f9f9;
+        border-color: #d0d0d0;
+        transform: translateY(-2px);
     }
+    
+    @media (max-width: 768px) {
+        .filter-row {
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .filter-group {
+            min-width: 100%;
+        }
+        
+        .filter-actions {
+            flex-direction: column;
+        }
+        
+        .filter-btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+    
     
     /* VEHICLE GALLERY PREMIUM */
     .vehicle-gallery {
@@ -596,6 +635,83 @@
             grid-template-columns: 1fr;
         }
     }
+
+     /* SECTION PROMO PIÈCES DÉTACHÉES */
+    .parts-promo {
+        background: linear-gradient(135deg, rgba(10, 35, 81, 0.9), rgba(10, 35, 81, 0.9)), 
+                    url('https://images.unsplash.com/photo-1600861195091-690c92f1d2cc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        padding: 3rem 2rem;
+        border-radius: 12px;
+        margin-top: 3rem;
+        text-align: center;
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .parts-promo::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.3);
+    }
+    
+    .parts-promo-content {
+        position: relative;
+        z-index: 2;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .parts-promo h3 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+    
+    .parts-promo p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        margin-bottom: 1.5rem;
+    }
+    
+    .parts-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.8rem 2rem;
+        background-color: var(--accent-gold);
+        color: var(--dark-blue);
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .parts-btn i {
+        margin-right: 10px;
+    }
+    
+    .parts-btn:hover {
+        background-color: #e6c200;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+    
+    @media (max-width: 768px) {
+        .parts-promo {
+            padding: 2rem 1rem;
+        }
+        
+        .parts-promo h3 {
+            font-size: 1.5rem;
+        }
+    }
 </style>
 
 <!-- HERO SECTION ULTRA PREMIUM -->
@@ -608,53 +724,65 @@
 </section>
 
 <!-- FILTER SECTION PREMIUM -->
-<div class="vehicle-filters wow-section">
+<div class="vehicle-filters premium-section">
     <div class="filter-header">
         <h2>TROUVEZ VOTRE VÉHICULE DE RÊVE</h2>
-        <p>Filtrez notre collection selon vos critères exclusifs</p>
+        <p>Affinez votre recherche selon vos critères</p>
     </div>
     
     <form method="get" class="filter-grid">
-        <div class="filter-group">
-            <label for="search"><i class="fas fa-search"></i> Recherche</label>
-            <input type="text" id="search" name="q" placeholder="Marque, modèle..." value="{{ search_query }}" class="filter-control">
+        <div class="filter-row">
+            <div class="filter-group">
+                <div class="input-icon">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search" name="q" placeholder="Marque, modèle..." value="{{ search_query }}" class="filter-control">
+                </div>
+            </div>
+            
+            <div class="filter-group">
+                <div class="input-icon">
+                    <i class="fas fa-tags"></i>
+                    <select id="type" name="type" class="filter-control">
+                        <option value="">Tous types</option>
+                        <option value="NEUF" {% if type_filter == 'NEUF' %}selected{% endif %}>Neuf</option>
+                        <option value="OCCASION" {% if type_filter == 'OCCASION' %}selected{% endif %}>Occasion</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="filter-group">
+                <div class="input-icon">
+                    <i class="fas fa-check-circle"></i>
+                    <select id="dispo" name="dispo" class="filter-control">
+                        <option value="">Disponibilité</option>
+                        <option value="1" {% if dispo_filter == '1' %}selected{% endif %}>Disponible</option>
+                        <option value="0" {% if dispo_filter == '0' %}selected{% endif %}>Indisponible</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="filter-group">
+                <div class="input-icon">
+                    <i class="fas fa-coins"></i>
+                    <select id="price" name="price" class="filter-control">
+                        <option value="">Budget</option>
+                        <option value="5000000" {% if price_filter == '5000000' %}selected{% endif %}>5M XOF</option>
+                        <option value="10000000" {% if price_filter == '10000000' %}selected{% endif %}>10M XOF</option>
+                        <option value="20000000" {% if price_filter == '20000000' %}selected{% endif %}>20M XOF</option>
+                        <option value="50000000" {% if price_filter == '50000000' %}selected{% endif %}>50M XOF</option>
+                    </select>
+                </div>
+            </div>
         </div>
         
-        <div class="filter-group">
-            <label for="type"><i class="fas fa-tags"></i> Type de véhicule</label>
-            <select id="type" name="type" class="filter-control">
-                <option value="">Tous types</option>
-                <option value="NEUF" {% if type_filter == 'NEUF' %}selected{% endif %}>Neuf</option>
-                <option value="OCCASION" {% if type_filter == 'OCCASION' %}selected{% endif %}>Occasion</option>
-            </select>
+        <div class="filter-actions">
+            <button type="submit" class="filter-btn primary-btn">
+                <i class="fas fa-filter"></i> Filtrer
+            </button>
+            <a href="{% url 'services:automobiles' %}" class="filter-btn secondary-btn">
+                <i class="fas fa-sync-alt"></i> Réinitialiser
+            </a>
         </div>
-        
-        <div class="filter-group">
-            <label for="dispo"><i class="fas fa-check-circle"></i> Disponibilité</label>
-            <select id="dispo" name="dispo" class="filter-control">
-                <option value="">Toutes</option>
-                <option value="1" {% if dispo_filter == '1' %}selected{% endif %}>Disponible</option>
-                <option value="0" {% if dispo_filter == '0' %}selected{% endif %}>Indisponible</option>
-            </select>
-        </div>
-        
-        <div class="filter-group">
-            <label for="price"><i class="fas fa-coins"></i> Budget</label>
-            <select id="price" name="price" class="filter-control">
-                <option value="">Tous budgets</option>
-                <option value="5000000" {% if price_filter == '5000000' %}selected{% endif %}>5M XOF</option>
-                <option value="10000000" {% if price_filter == '10000000' %}selected{% endif %}>10M XOF</option>
-                <option value="20000000" {% if price_filter == '20000000' %}selected{% endif %}>20M XOF</option>
-                <option value="50000000" {% if price_filter == '50000000' %}selected{% endif %}>50M XOF</option>
-            </select>
-        </div>
-        
-        <button type="submit" class="filter-btn">
-            <i class="fas fa-filter"></i> APPLIQUER LES FILTRES
-        </button>
-        <a href="{% url 'services:automobiles' %}" class="filter-btn reset-btn">
-            <i class="fas fa-sync-alt"></i> RÉINITIALISER
-        </a>
     </form>
 </div>
 
@@ -722,6 +850,7 @@
                 </div>
             </div>
         </div>
+
         {% endfor %}
     </div>
     {% else %}
@@ -765,6 +894,16 @@
         {% endif %}
     </div>
     {% endif %}
+
+    <div class="parts-promo wow-section">
+        <div class="parts-promo-content">
+            <h3>Besoin de pièces détachées de qualité ?</h3>
+            <p>Nous proposons des pièces d'origine et compatibles pour tous les véhicules de notre collection</p>
+            <a href="{% url 'services:pieces' %}" class="parts-btn">
+                <i class="fas fa-cogs"></i> Découvrir notre catalogue de pièces
+            </a>
+        </div>
+    </div>
 </div>
 
 <script>

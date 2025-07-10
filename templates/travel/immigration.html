@@ -1,0 +1,254 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Services d'Immigration | Odzuna Travel{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --primary: #005baa;
+        --secondary: #003d7a;
+        --accent: #f8b400;
+        --light: #f5f7fa;
+        --text: #333333;
+    }
+
+    /* Hero Section */
+    .immigration-hero {
+        background: linear-gradient(rgba(0, 91, 170, 0.8), rgba(0, 91, 170, 0.8)), 
+                    url('https://images.unsplash.com/photo-1452421822248-d4c2b47f0c81?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        padding: 6rem 2rem;
+        text-align: center;
+        color: white;
+    }
+
+    .hero-title {
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.3rem;
+        max-width: 700px;
+        margin: 0 auto;
+        opacity: 0.9;
+    }
+
+    /* About Section */
+    .about-section {
+        max-width: 1000px;
+        margin: 4rem auto;
+        padding: 0 2rem;
+        text-align: center;
+    }
+
+    .section-title {
+        font-size: 2.2rem;
+        color: var(--secondary);
+        margin-bottom: 2rem;
+        position: relative;
+    }
+
+    .section-title::after {
+        content: '';
+        display: block;
+        width: 80px;
+        height: 4px;
+        background: var(--accent);
+        margin: 1rem auto;
+    }
+
+    .about-text {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: var(--text);
+        margin-bottom: 3rem;
+    }
+
+    /* Process Section */
+    .process-section {
+        background: var(--light);
+        padding: 4rem 2rem;
+    }
+
+    .process-container {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .process-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+
+    .process-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        border-top: 4px solid var(--accent);
+    }
+
+    .process-card h3 {
+        color: var(--secondary);
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+    }
+
+    .process-checklist {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .process-checklist li {
+        position: relative;
+        padding-left: 2rem;
+        margin-bottom: 1rem;
+        color: var(--text);
+        line-height: 1.6;
+    }
+
+    .process-checklist li::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        color: var(--primary);
+        font-weight: bold;
+    }
+
+    /* CTA Section */
+    .cta-section {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: var(--primary);
+        color: white;
+    }
+
+    .cta-title {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .cta-button {
+        display: inline-block;
+        background: var(--accent);
+        color: var(--text);
+        padding: 1rem 2.5rem;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .cta-button:hover {
+        background: #e6a800;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.2rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.1rem;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="immigration-hero">
+    <h1 class="hero-title">Expertise en Immigration</h1>
+    <p class="hero-subtitle">Votre réussite migratoire grâce à notre accompagnement sur mesure, quel que soit le pays de destination</p>
+</section>
+
+<!-- About Section -->
+<section class="about-section">
+    <h2 class="section-title">Notre Approche</h2>
+    <p class="about-text">
+        Odzuna Travel s'est imposé comme un leader dans les services d'immigration grâce à une méthodologie rigoureuse 
+        et un accompagnement personnalisé. Notre expertise couvre tous les types de visas, pour toutes destinations, 
+        avec un taux de réussite exceptionnel.
+    </p>
+</section>
+
+<!-- Process Section -->
+<section class="process-section">
+    <div class="process-container">
+        <h2 class="section-title">Notre Méthodologie</h2>
+        
+        <div class="process-grid">
+            <!-- Card 1 -->
+            <div class="process-card">
+                <h3>Évaluation Initiale</h3>
+                <ul class="process-checklist">
+                    <li>Analyse gratuite de votre profil migratoire</li>
+                    <li>Détermination du visa le plus adapté</li>
+                    <li>Évaluation des chances de succès</li>
+                    <li>Plan d'action personnalisé</li>
+                </ul>
+            </div>
+            
+            <!-- Card 2 -->
+            <div class="process-card">
+                <h3>Préparation du Dossier</h3>
+                <ul class="process-checklist">
+                    <li>Checklist complète des documents requis</li>
+                    <li>Assistance pour l'obtention des pièces officielles</li>
+                    <li>Traduction certifiée si nécessaire</li>
+                    <li>Optimisation de votre dossier</li>
+                </ul>
+            </div>
+            
+            <!-- Card 3 -->
+            <div class="process-card">
+                <h3>Accompagnement Complet</h3>
+                <ul class="process-checklist">
+                    <li>Remplissage des formulaires officiels</li>
+                    <li>Prise de rendez-vous avec les ambassades</li>
+                    <li>Préparation aux entretiens</li>
+                    <li>Suivi jusqu'à l'obtention du visa</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <h2 class="cta-title">Prêt à concrétiser votre projet migratoire ?</h2>
+    <a href="{% url 'contact' %}" class="cta-button">Contactez nos experts</a>
+</section>
+
+<script>
+    // Simple animation for process cards
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.process-card');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.style.transition = `all 0.6s ease ${index * 0.1}s`;
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        cards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            observer.observe(card);
+        });
+    });
+</script>
+{% endblock %}

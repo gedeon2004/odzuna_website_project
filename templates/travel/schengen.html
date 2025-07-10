@@ -1,0 +1,451 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Visa Schengen | Odzuna Travel{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --schengen-blue: #005baa;
+        --schengen-yellow: #ffcc00;
+        --schengen-dark: #1a237e;
+        --light-gray: #f5f7fa;
+        --text-gray: #4a5568;
+    }
+
+    /* Hero Section */
+    .schengen-hero {
+        background: linear-gradient(rgba(255, 255, 255, 0.36), rgba(0, 56, 106, 0.8)), 
+                    url('https://images.unsplash.com/photo-1503917988258-f87a78e3c995?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        padding: 6rem 2rem;
+        text-align: center;
+        color: white;
+    }
+
+    .schengen-hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .schengen-hero p {
+        font-size: 1.3rem;
+        max-width: 800px;
+        margin: 0 auto 2rem;
+    }
+
+    /* Countries Grid */
+    .schengen-countries {
+        background: var(--light-gray);
+        padding: 4rem 2rem;
+    }
+
+    .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        color: var(--schengen-dark);
+        margin-bottom: 3rem;
+        position: relative;
+    }
+
+    .section-title::after {
+        content: '';
+        display: block;
+        width: 100px;
+        height: 4px;
+        background: var(--schengen-yellow);
+        margin: 1rem auto 0;
+    }
+
+    .countries-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .country-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border-left: 4px solid var(--schengen-blue);
+    }
+
+    .country-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .country-flag {
+        width: 60px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Requirements Section */
+    .requirements-section {
+        padding: 4rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .requirements-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .requirement-card {
+        background: white;
+        border-radius: 8px;
+        padding: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-top: 4px solid var(--schengen-yellow);
+    }
+
+    .requirement-card h3 {
+        color: var(--schengen-dark);
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+    }
+
+    .checklist {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .checklist li {
+        position: relative;
+        padding-left: 2rem;
+        margin-bottom: 1rem;
+        color: var(--text-gray);
+    }
+
+    .checklist li::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        color: var(--schengen-blue);
+        font-weight: bold;
+    }
+
+    /* Special Programs */
+    .programs-section {
+        background: var(--light-gray);
+        padding: 4rem 2rem;
+    }
+
+    .programs-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .program-card {
+        background: white;
+        border-radius: 8px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .program-card h3 {
+        color: var(--schengen-dark);
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+
+    .program-card p {
+        color: var(--text-gray);
+        margin-bottom: 1.5rem;
+    }
+
+    .program-link {
+        color: var(--schengen-blue);
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .program-link:hover {
+        text-decoration: underline;
+    }
+
+    /* CTA Section */
+    .cta-section {
+        background: var(--schengen-blue);
+        color: white;
+        padding: 4rem 2rem;
+        text-align: center;
+    }
+
+    .cta-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .cta-button {
+        display: inline-block;
+        background: var(--schengen-yellow);
+        color: var(--schengen-dark);
+        padding: 1rem 2.5rem;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        margin-top: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .cta-button:hover {
+        background: #e6b800;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+        .schengen-hero h1 {
+            font-size: 2.5rem;
+        }
+        
+        .schengen-hero p {
+            font-size: 1.1rem;
+        }
+        
+        .countries-grid {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        }
+        
+        .section-title {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="schengen-hero">
+    <h1>Visa Schengen</h1>
+    <p>Votre passeport pour voyager librement dans 27 pays européens</p>
+    <a href="#requirements" class="cta-button">Voir les exigences</a>
+</section>
+
+<!-- Schengen Countries Section -->
+<section class="schengen-countries">
+    <h2 class="section-title">Pays de l'Espace Schengen</h2>
+    <div class="countries-grid">
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/fr.png" alt="France" class="country-flag">
+            <h3>France</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/de.png" alt="Allemagne" class="country-flag">
+            <h3>Allemagne</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/es.png" alt="Espagne" class="country-flag">
+            <h3>Espagne</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/it.png" alt="Italie" class="country-flag">
+            <h3>Italie</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/pt.png" alt="Portugal" class="country-flag">
+            <h3>Portugal</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/nl.png" alt="Pays-Bas" class="country-flag">
+            <h3>Pays-Bas</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/be.png" alt="Belgique" class="country-flag">
+            <h3>Belgique</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/lu.png" alt="Luxembourg" class="country-flag">
+            <h3>Luxembourg</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/ch.png" alt="Suisse" class="country-flag">
+            <h3>Suisse</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/at.png" alt="Autriche" class="country-flag">
+            <h3>Autriche</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/se.png" alt="Suède" class="country-flag">
+            <h3>Suède</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/no.png" alt="Norvège" class="country-flag">
+            <h3>Norvège</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/fi.png" alt="Finlande" class="country-flag">
+            <h3>Finlande</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/dk.png" alt="Danemark" class="country-flag">
+            <h3>Danemark</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/is.png" alt="Islande" class="country-flag">
+            <h3>Islande</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/pl.png" alt="Pologne" class="country-flag">
+            <h3>Pologne</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/cz.png" alt="République Tchèque" class="country-flag">
+            <h3>République Tchèque</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/sk.png" alt="Slovaquie" class="country-flag">
+            <h3>Slovaquie</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/hu.png" alt="Hongrie" class="country-flag">
+            <h3>Hongrie</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/si.png" alt="Slovénie" class="country-flag">
+            <h3>Slovénie</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/ee.png" alt="Estonie" class="country-flag">
+            <h3>Estonie</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/lv.png" alt="Lettonie" class="country-flag">
+            <h3>Lettonie</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/lt.png" alt="Lituanie" class="country-flag">
+            <h3>Lituanie</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/mt.png" alt="Malte" class="country-flag">
+            <h3>Malte</h3>
+        </div>
+        <div class="country-card">
+            <img src="https://flagcdn.com/40x30/li.png" alt="Liechtenstein" class="country-flag">
+            <h3>Liechtenstein</h3>
+        </div>
+    </div>
+</section>
+
+<!-- Requirements Section -->
+<section class="requirements-section" id="requirements">
+    <h2 class="section-title">Exigences du Visa Schengen</h2>
+    <div class="requirements-grid">
+        <div class="requirement-card">
+            <h3>Documents Obligatoires</h3>
+            <ul class="checklist">
+                <li>Formulaire de demande rempli et signé</li>
+                <li>Passeport valide (3 mois après le retour)</li>
+                <li>2 photos d'identité récentes</li>
+                <li>Réservation de billet aller-retour</li>
+                <li>Preuve d'hébergement</li>
+                <li>Assurance voyage (couverture ≥ 30,000€)</li>
+            </ul>
+        </div>
+        
+        <div class="requirement-card">
+            <h3>Documents Financiers</h3>
+            <ul class="checklist">
+                <li>Relevés bancaires des 3 derniers mois</li>
+                <li>Preuve de revenus (bulletins de salaire, contrat de travail)</li>
+                <li>Attestation de prise en charge si nécessaire</li>
+                <li>Justificatif de moyens suffisants (65€/jour minimum)</li>
+            </ul>
+        </div>
+        
+        <div class="requirement-card">
+            <h3>Documents Supplémentaires</h3>
+            <ul class="checklist">
+                <li>Casier judiciaire</li>
+                <li>Preuve de statut professionnel</li>
+                <li>Lettre d'invitation pour visites familiales</li>
+                <li>Itinéraire détaillé pour les voyages touristiques</li>
+                <li>Inscription pour les étudiants</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Special Programs Section -->
+<section class="programs-section">
+    <div class="programs-container">
+        <h2 class="section-title">Programmes Spéciaux</h2>
+        
+        <div class="program-card">
+            <h3>Campus France</h3>
+            <p>Pour les étudiants souhaitant poursuivre leurs études en France. Nous vous accompagnons dans la procédure d'inscription et l'obtention de votre visa étudiant.</p>
+            <a href="https://www.campusfrance.org" target="_blank" class="program-link">Visiter Campus France →</a>
+        </div>
+        
+        <div class="program-card">
+            <h3>Visa pour la Suisse</h3>
+            <p>Procédures spécifiques pour les visas suisses, y compris les visas de travail et d'études. Nous gérons les formalités avec les autorités cantonales.</p>
+            <a href="https://www.sem.admin.ch" target="_blank" class="program-link">Site officiel SEM →</a>
+        </div>
+        
+        <div class="program-card">
+            <h3>Visa de long séjour</h3>
+            <p>Pour les séjours de plus de 90 jours, nous vous guidons dans les démarches spécifiques selon le pays de destination.</p>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="cta-container">
+        <h2>Prêt à postuler pour votre visa Schengen ?</h2>
+        <p>Notre équipe d'experts vous accompagne dans toutes les démarches pour maximiser vos chances d'obtention du visa.</p>
+        <a href="{% url 'contact' %}" class="cta-button">Contactez-nous</a>
+    </div>
+</section>
+
+<script>
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Animation for requirement cards
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.requirement-card, .program-card');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        cards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+    });
+</script>
+{% endblock %}

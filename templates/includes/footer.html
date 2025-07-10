@@ -48,10 +48,11 @@
         <nav class="footer-nav">
             <ul>
                 <li><a href="#" data-text="Accueil">Accueil</a></li>
-                <li><a href="#" data-text="Services">Services</a></li>
-                <li><a href="#" data-text="À propos">À propos</a></li>
-                <li><a href="#" data-text="Contact">Contact</a></li>
-                <li><a href="#" data-text="Blog">Blog</a></li>
+                <li><a href="{% url 'about' %}" data-text="À propos">À propos</a></li>
+                <li><a href="{% url 'services:automobiles'%}" data-text="Services">Services</a></li>
+                <li><a href="{% url 'travel:usa' %}" data-text="Voyages">Voyages</a></li>
+                <li><a href="{% url 'contact'%}" data-text="Contact">Contact</a></li>
+                {% comment %} <li><a href="#" data-text="Blog">Blog</a></li> {% endcomment %}
             </ul>
         </nav>
 

@@ -406,7 +406,7 @@
                                 <h3 class="mega-menu-title"><i class="fas fa-globe-americas"></i> Destinations</h3>
                                 <ul class="mega-menu-list">
                                     <li><a href="{% url 'travel:canada' %}" class="mega-menu-link"><i class="fab fa-canadian-maple-leaf"></i> Canada <span class="menu-desc">Immigration et études</span></a></li>
-                                    <li><a href="{% url 'travel:usa' %}" class="mega-menu-link"><i class="fas fa-flag-usa"></i> États-Unis <span class="menu-desc">Visa et loterie</span></a></li>
+                                    <li><a href="{% url 'travel:usa' %}" class="mega-menu-link"><i class="fas fa-flag-usa"></i> États-Unis <span class="menu-desc">Demande de Visa Américaine </span></a></li>
                                     <li><a href="{% url 'travel:schengen' %}" class="mega-menu-link"><i class="fas fa-globe-europe"></i> Europe <span class="menu-desc">Espace Schengen</span></a></li>
                                 </ul>
                             </div>
@@ -414,15 +414,15 @@
                                 <h3 class="mega-menu-title"><i class="fas fa-passport"></i> Services</h3>
                                 <ul class="mega-menu-list">
                                     <li><a href="{% url 'travel:immigration' %}" class="mega-menu-link"><i class="fas fa-file-signature"></i> Procédures d'immigration <span class="menu-desc">Accompagnement complet</span></a></li>
-                                    <li><a href="{% url 'travel:loterie' %}" class="mega-menu-link"><i class="fas fa-ticket-alt"></i> Loterie des visas <span class="menu-desc">DV Lottery USA</span></a></li>
-                                    <li><a href="#" class="mega-menu-link"><i class="fas fa-hotel"></i> Réservations <span class="menu-desc">Hôtels et billets</span></a></li>
+                                    <li><a href="{% url 'travel:loterie' %}" class="mega-menu-link"><i class="fas fa-ticket-alt"></i> Loterie visa <span class="menu-desc">DV Lottery USA</span></a></li>
+                                    <li><a href="{% url 'travel:reservation'%}" class="mega-menu-link"><i class="fas fa-hotel"></i> Réservations <span class="menu-desc">Hôtels et billets</span></a></li>
                                 </ul>
                             </div>
                             <div class="mega-menu-promo">
                                 <div class="promo-card visa-promo">
                                     <h4><i class="fas fa-star"></i> Dossier Canada</h4>
                                     <p>Préparez votre immigration dès maintenant</p>
-                                    <a href="#" class="promo-btn">Commencer</a>
+                                    <a href="{% url 'travel:canada'%}" class="promo-btn">Commencer</a>
                                 </div>
                             </div>
                         </div>
@@ -453,7 +453,7 @@
                                 <div class="promo-card">
                                     <h4><i class="fas fa-gift"></i> Offre spéciale</h4>
                                     <p>Permis de conduire + Formation à 150,000 FCFA</p>
-                                    <a href="#" class="promo-btn">Voir l'offre</a>
+                                    <a href="{% url 'services:permis'%}" class="promo-btn">Voir l'offre</a>
                                 </div>
                             </div>
                         </div>
